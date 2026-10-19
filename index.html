@@ -1,0 +1,1302 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B2838">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="شعلة">
+<meta name="description" content="شعلة: تمرين ذهني يومي من مواقف بيئة العمل، يحلل نقاط قوتك وضعفك ويختار تمرين الغد بناءً عليها.">
+<title>شعلة</title>
+<link rel="icon" id="favicon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%23123B50'/%3E%3Cpath d='M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z' fill='%23F2922A' transform='translate(2.4 2.4) scale(.8)'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" id="touchicon" href="">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* الألوان مستخلصة من الشعار */
+  --navy:#123B50;
+  --navy-deep:#0B2838;
+  --navy-card:#16475F;
+  --navy-raise:#1B5470;
+  --green:#3DB672;
+  --teal:#1C8C8E;
+  --yellow:#F7C443;
+  --orange:#F2922A;
+  --ink:#F3F8FA;
+  --muted:#A8C2CE;
+  --faint:rgba(255,255,255,.08);
+  --line:rgba(255,255,255,.12);
+  --radius:18px;
+  --font:"IBM Plex Sans Arabic", "Segoe UI", Tahoma, system-ui, sans-serif;
+  --safe-b:env(safe-area-inset-bottom, 0px);
+  --safe-t:env(safe-area-inset-top, 0px);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{
+  font-family:var(--font);
+  background:var(--navy-deep);
+  color:var(--ink);
+  min-height:100vh;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(600px 400px at 100% 0%, rgba(242,146,42,.16), transparent 60%),
+    radial-gradient(520px 420px at 0% 30%, rgba(28,140,142,.22), transparent 60%),
+    radial-gradient(500px 380px at 80% 100%, rgba(61,182,114,.14), transparent 60%),
+    var(--navy-deep);
+}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+button:disabled{cursor:default}
+input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
+svg.i{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* ===== الهيكل ===== */
+.topbar{
+  position:sticky;top:0;z-index:20;
+  padding:calc(10px + var(--safe-t)) 16px 10px;
+  background:rgba(11,40,56,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--faint);
+}
+.topbar-in{max-width:1040px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;letter-spacing:0}
+.brand-mark{width:38px;height:38px;border-radius:12px;background:var(--navy);display:grid;place-items:center;border:1px solid var(--line)}
+.brand-mark svg{width:24px;height:24px}
+.brand small{display:block;font-size:11px;font-weight:500;color:var(--muted);line-height:1.2}
+.chip{display:flex;align-items:center;gap:8px;background:var(--navy-card);border:1px solid var(--line);padding:6px 12px;border-radius:999px;font-size:13px;font-weight:600;white-space:nowrap}
+.chip .dot{width:8px;height:8px;border-radius:50%;background:var(--yellow)}
+.chip .streak{color:var(--orange);display:flex;align-items:center;gap:3px}
+.chip .streak svg{width:15px;height:15px}
+
+main{max-width:1040px;margin:0 auto;padding:18px 16px calc(110px + var(--safe-b))}
+.narrow{max-width:680px;margin:0 auto}
+
+.tabbar{
+  position:fixed;z-index:30;left:50%;transform:translateX(-50%);
+  bottom:calc(12px + var(--safe-b));
+  display:flex;gap:4px;padding:6px;border-radius:999px;
+  background:rgba(22,71,95,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--line);box-shadow:0 12px 30px rgba(0,0,0,.35);
+}
+.tabbar button{display:flex;align-items:center;gap:6px;padding:10px 16px;border-radius:999px;font-size:14px;font-weight:600;color:var(--muted);transition:background .2s,color .2s}
+.tabbar button.on{background:var(--ink);color:var(--navy-deep)}
+
+/* ===== عناصر عامة ===== */
+.eyebrow{margin:0;color:var(--yellow);font-weight:600;font-size:14px}
+h1{font-size:clamp(26px,5.4vw,40px);line-height:1.3;margin:6px 0 10px;font-weight:700;text-wrap:balance}
+h2{font-size:20px;margin:28px 0 12px;font-weight:700}
+.lead{color:var(--muted);margin:0;font-size:16px;max-width:56ch}
+.muted{color:var(--muted)}
+.card{background:var(--navy-card);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 20px;border-radius:14px;font-weight:700;font-size:15px;transition:transform .12s, opacity .2s, background .2s}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--orange);color:#1b1205}
+.btn.primary:disabled{opacity:.4}
+.btn.ghost{background:var(--faint);border:1px solid var(--line)}
+.btn.block{width:100%}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+
+/* ===== الرئيسية ===== */
+.home-top{display:grid;gap:16px;grid-template-columns:1fr}
+.level .lv-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.level .lv-name{font-size:22px;font-weight:700}
+.level .lv-xp{color:var(--muted);font-size:13px}
+.bar-wrap{height:10px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden;margin:12px 0 8px}
+.bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--green),var(--yellow),var(--orange));transition:width .8s}
+.lv-steps{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
+.lv-steps span.on{color:var(--yellow);font-weight:600}
+
+.daily{position:relative;overflow:hidden;background:linear-gradient(135deg,var(--navy-raise),var(--navy-card));}
+.daily::after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;left:-50px;top:-60px;background:radial-gradient(circle,rgba(247,196,67,.35),transparent 70%)}
+.daily .tag{background:var(--yellow);color:#2a1d00}
+.daily h3{margin:10px 0 4px;font-size:20px}
+.daily p{margin:0 0 14px;color:var(--muted)}
+.daily.done .tag{background:var(--green);color:#03210f}
+
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--faint);color:var(--muted)}
+.tag svg{width:14px;height:14px}
+
+.ggrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.gcard{
+  text-align:right;background:var(--navy-card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px;display:flex;flex-direction:column;gap:10px;min-height:150px;position:relative;overflow:hidden;
+  transition:transform .15s,border-color .2s;
+}
+.gcard:hover{border-color:color-mix(in srgb,var(--c) 60%,transparent)}
+.gcard:active{transform:scale(.97)}
+.gcard::before{content:"";position:absolute;inset:auto auto -40px -40px;width:120px;height:120px;border-radius:50%;background:var(--c);opacity:.12}
+.gicon{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 22%,transparent);color:var(--c)}
+.gicon svg{width:22px;height:22px}
+.gcard b{font-size:16px;line-height:1.4}
+.gcard small{color:var(--muted);font-size:13px;line-height:1.5}
+.gcard .best{margin-top:auto;font-size:12px;color:var(--c);font-weight:600}
+
+.meet-card{display:flex;gap:14px;align-items:center;text-align:right;width:100%;margin-top:12px}
+.meet-card .gicon{width:50px;height:50px}
+.meet-card div{flex:1}
+.meet-card b{display:block;font-size:17px}
+.meet-card small{color:var(--muted)}
+
+/* قائمة الألعاب */
+.glist{display:grid;gap:12px}
+.gitem{display:flex;gap:14px;text-align:right;align-items:flex-start;width:100%}
+.gitem .gicon{width:48px;height:48px}
+.gitem .txt{flex:1;min-width:0}
+.gitem b{display:block;font-size:17px}
+.gitem .s{color:var(--ink);opacity:.9;font-size:14px;margin:2px 0 6px}
+.gitem .why{color:var(--muted);font-size:13px;border-right:3px solid var(--c);padding-right:10px;margin:0}
+.gitem .meta{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+
+/* ===== شاشة اللعب ===== */
+.gtop{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.iconbtn{width:42px;height:42px;border-radius:12px;background:var(--faint);border:1px solid var(--line);display:grid;place-items:center;flex:none}
+.gtitle{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.gtitle .gicon{width:38px;height:38px;border-radius:11px}
+.gtitle b{display:block;font-size:16px;line-height:1.3}
+.x2{display:inline-block;font-size:11px;font-weight:700;color:#2a1d00;background:var(--yellow);padding:1px 8px;border-radius:99px;margin-top:2px}
+.score{text-align:center;background:var(--navy-card);border:1px solid var(--line);border-radius:12px;padding:4px 12px;min-width:74px}
+.score small{display:block;font-size:10px;color:var(--muted);line-height:1.3}
+.score b{font-size:18px;color:var(--yellow);font-variant-numeric:tabular-nums}
+
+.prog{display:flex;gap:6px;margin-bottom:10px}
+.prog i{flex:1;height:5px;border-radius:9px;background:rgba(255,255,255,.12)}
+.prog i.done{background:var(--green)}
+.prog i.now{background:var(--yellow)}
+
+.timer{display:flex;align-items:center;gap:10px;margin:0 -16px 14px;padding:8px 16px;position:sticky;top:calc(59px + var(--safe-t));z-index:15;background:rgba(11,40,56,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.timer .track{flex:1;height:10px;border-radius:9px;background:rgba(255,255,255,.1);overflow:hidden}
+.tpill{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:99px;background:var(--navy-card);border:1.5px solid var(--teal);color:var(--ink);flex:none;transition:border-color .3s,background .3s}
+.tpill svg{width:17px;height:17px;color:var(--teal)}
+.tpill small{font-size:12px;color:var(--muted)}
+.timer.low .tpill{border-color:var(--orange);background:rgba(242,146,42,.15)}
+.timer.low .tpill svg{color:var(--orange)}
+.timer .bar{height:100%;width:100%;background:var(--teal);transform-origin:right center;border-radius:9px;transition:transform .2s linear, background .3s}
+.timer.low .bar{background:var(--orange)}
+.timer .secs{font-weight:700;font-variant-numeric:tabular-nums;min-width:22px;text-align:center;font-size:18px;line-height:1}
+.timer.low .secs{color:var(--orange);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.4}}
+
+.qcard{background:var(--navy-card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:14px;animation:rise .35s ease both}
+.qtext{font-size:18px;font-weight:600;margin:10px 0 0;line-height:1.75}
+.constraint{margin:12px 0 0;padding:10px 12px;border-radius:12px;background:rgba(247,196,67,.12);color:var(--yellow);font-weight:600;font-size:15px;display:flex;gap:8px;align-items:flex-start}
+.constraint svg{margin-top:4px}
+.center{text-align:center}
+.big{font-size:30px;font-weight:700;margin:8px 0 2px;color:var(--yellow)}
+.ask{margin:4px 0 10px;color:var(--muted);font-weight:600;font-size:14px}
+.opts{display:grid;gap:10px;margin-bottom:14px}
+.opt{
+  text-align:right;width:100%;padding:14px 16px;border-radius:14px;
+  background:var(--navy-raise);border:1.5px solid var(--line);
+  font-size:15px;line-height:1.7;white-space:pre-line;
+  transition:border-color .2s, background .2s, transform .12s;
+  animation:rise .35s ease both;
+}
+.opt:not(:disabled):hover{border-color:rgba(255,255,255,.3)}
+.opt:not(:disabled):active{transform:scale(.985)}
+.opt.ok{border-color:var(--green);background:rgba(61,182,114,.16)}
+.opt.bad{border-color:var(--orange);background:rgba(242,146,42,.14);animation:shake .35s}
+.opt:disabled:not(.ok):not(.bad){opacity:.55}
+.opt.order{display:flex;gap:12px;align-items:center}
+.opt .num{width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;border:1.5px dashed rgba(255,255,255,.3);font-weight:700}
+.opt.sel{border-color:var(--yellow)}
+.opt.sel .num{background:var(--yellow);border-color:var(--yellow);color:#2a1d00}
+.opt.ok .num{background:var(--green);border-color:var(--green);color:#03210f}
+.opt.bad .num{border-color:var(--orange)}
+.hint{margin:-4px 0 4px;font-size:13px;color:var(--orange);padding-right:6px}
+
+.feedback{border-radius:var(--radius);padding:16px;margin:4px 0 16px;border:1px solid;animation:rise .3s ease both}
+.feedback.good{border-color:rgba(61,182,114,.5);background:rgba(61,182,114,.1)}
+.feedback.miss{border-color:rgba(242,146,42,.5);background:rgba(242,146,42,.08)}
+.feedback strong{display:block;font-size:16px;margin-bottom:4px}
+.feedback.good strong{color:var(--green)}
+.feedback.miss strong{color:var(--orange)}
+.feedback p{margin:0 0 14px;color:var(--ink);opacity:.92}
+
+/* المستند */
+.doc{background:#F7F4EC;color:#1d2a31;border-radius:14px;padding:6px 0 10px;margin-bottom:10px;box-shadow:0 10px 30px rgba(0,0,0,.25);animation:rise .35s ease both}
+.doc-h{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:2px solid #e3dccb;margin-bottom:4px;font-size:15px}
+.doc-h svg{color:var(--teal)}
+.line{display:block;width:100%;text-align:right;padding:10px 16px;font-size:15px;color:#1d2a31;border-right:4px solid transparent;transition:background .15s}
+.line:not(:disabled):hover{background:#efe9da}
+.line.sel{background:#fde8cc;border-right-color:var(--orange)}
+.line.ok{background:#dcf3e5;border-right-color:var(--green)}
+.line.miss{background:#fff3d1;border-right-color:var(--yellow)}
+.line.bad{background:#fbe0d3;border-right-color:#c2410c;text-decoration:line-through;text-decoration-color:rgba(194,65,12,.5)}
+.line .why{display:block;font-size:13px;color:#43545c;margin-top:4px;text-decoration:none}
+.line.miss .why::before{content:"فاتك: ";font-weight:700;color:#8a6300}
+.line.ok .why::before{content:"أحسنت: ";font-weight:700;color:#1e7a47}
+.counter{text-align:center;color:var(--muted);font-size:14px;margin:6px 0 12px}
+
+/* لماذا الخمسة */
+.chain{display:grid;gap:0;margin:0 0 6px}
+.link{display:flex;gap:12px;align-items:flex-start;position:relative;padding:0 0 14px;animation:rise .3s ease both}
+.link::before{content:"";position:absolute;right:15px;top:32px;bottom:0;width:2px;background:var(--green);opacity:.5}
+.link .lv{width:32px;height:32px;border-radius:50%;background:var(--green);color:#03210f;font-weight:700;display:grid;place-items:center;flex:none}
+.link p{margin:3px 0 0;font-size:15px}
+.link.root .lv{background:var(--yellow);color:#2a1d00}
+
+/* الاستخدامات البديلة */
+.ideaform{display:flex;gap:8px;margin-bottom:12px}
+.ideaform input{flex:1;min-width:0;padding:13px 14px;border-radius:14px;background:var(--navy-raise);border:1.5px solid var(--line);outline:none;font-size:16px}
+.ideaform input:focus{border-color:var(--yellow)}
+.ideaform input.shake{animation:shake .35s;border-color:var(--orange)}
+.meter{display:flex;gap:4px;margin-bottom:12px}
+.meter i{flex:1;height:8px;border-radius:5px;background:rgba(255,255,255,.1);transition:background .3s}
+.meter i.on{background:var(--yellow)}
+.meter i.over{background:var(--green)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;min-height:10px}
+.chip-i{background:var(--navy-raise);border:1px solid var(--line);padding:6px 12px;border-radius:99px;font-size:14px;animation:pop .3s ease both}
+
+/* اللغز */
+.qs{display:grid;gap:8px;margin-bottom:8px}
+.qbtn{display:flex;justify-content:space-between;align-items:center;gap:10px;text-align:right;width:100%;padding:12px 14px;border-radius:12px;background:var(--navy-raise);border:1px solid var(--line);font-size:15px}
+.qbtn .ans{min-width:62px;text-align:center;font-size:13px;padding:3px 10px;border-radius:99px;background:var(--faint);color:var(--muted)}
+.qbtn .ans:empty::after{content:"اسأل"}
+.qbtn.open{cursor:default}
+.qbtn.yes .ans{background:var(--green);color:#03210f}
+.qbtn.no .ans{background:var(--orange);color:#1b1205}
+.qbtn.na .ans{background:var(--muted);color:var(--navy-deep)}
+
+/* النتيجة */
+.result{text-align:center;padding-top:10px}
+.ring{width:170px;height:170px;margin:10px auto 6px;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .val{position:absolute;inset:0;display:grid;place-items:center;align-content:center}
+.ring .val b{font-size:40px;line-height:1;color:var(--yellow);font-variant-numeric:tabular-nums}
+.ring .val small{color:var(--muted);font-size:13px;margin-top:6px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+.stat{background:var(--navy-card);border:1px solid var(--line);border-radius:14px;padding:12px 6px}
+.stat b{display:block;font-size:20px;font-variant-numeric:tabular-nums}
+.stat small{color:var(--muted);font-size:12px}
+.msg{font-size:17px;font-weight:600;max-width:40ch;margin:4px auto 0}
+.lvlup{margin:16px auto;padding:12px 16px;border-radius:14px;background:linear-gradient(90deg,rgba(247,196,67,.18),rgba(242,146,42,.18));border:1px solid rgba(247,196,67,.4);font-weight:700;color:var(--yellow);max-width:420px}
+
+/* الإنجازات */
+.badges{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.badge{text-align:center;padding:14px 8px;border-radius:16px;background:var(--navy-card);border:1px solid var(--line)}
+.badge .bi{width:48px;height:48px;border-radius:50%;margin:0 auto 8px;display:grid;place-items:center;background:var(--faint);color:var(--muted)}
+.badge.on .bi{background:linear-gradient(135deg,var(--yellow),var(--orange));color:#2a1d00}
+.badge b{display:block;font-size:13px}
+.badge small{display:block;font-size:11px;color:var(--muted);line-height:1.5;margin-top:2px}
+.badge:not(.on){opacity:.55}
+.newbadges{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:10px 0}
+.newbadges .badge{width:120px;animation:pop .5s ease both}
+
+.bests{display:grid;gap:8px}
+.bestrow{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--navy-card);border:1px solid var(--line)}
+.bestrow .gicon{width:34px;height:34px;border-radius:10px}
+.bestrow .gicon svg{width:18px;height:18px}
+.bestrow span{flex:1}
+.bestrow b{color:var(--yellow);font-variant-numeric:tabular-nums}
+
+/* الاجتماع */
+.field{width:100%;padding:13px 14px;border-radius:14px;background:var(--navy-raise);border:1.5px solid var(--line);outline:none;resize:vertical;font-size:16px;line-height:1.7}
+.field:focus{border-color:var(--yellow)}
+.lbl{display:block;font-weight:600;margin:14px 0 6px;font-size:14px}
+.seg{display:flex;background:var(--navy-raise);border-radius:14px;padding:4px;border:1px solid var(--line);margin-bottom:16px}
+.seg button{flex:1;padding:10px;border-radius:10px;font-weight:600;color:var(--muted)}
+.seg button.on{background:var(--ink);color:var(--navy-deep)}
+.devil{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,rgba(242,146,42,.22),rgba(247,196,67,.12));border:1px solid rgba(242,146,42,.45);border-radius:var(--radius);padding:16px;margin-bottom:14px}
+.devil .gicon{--c:var(--orange);width:48px;height:48px}
+.devil small{display:block;color:var(--muted);font-size:13px}
+.devil b{font-size:22px}
+.clock{font-size:clamp(56px,16vw,96px);font-weight:700;text-align:center;font-variant-numeric:tabular-nums;line-height:1;margin:14px 0 6px;color:var(--ink)}
+.clock.low{color:var(--orange)}
+.prompts{margin:0 0 16px;padding:0;list-style:none;display:grid;gap:8px}
+.prompts li{padding:10px 14px;border-radius:12px;background:var(--navy-card);border:1px solid var(--line);font-size:15px;display:flex;gap:10px}
+.prompts li::before{content:"؟";color:var(--yellow);font-weight:700}
+
+.toast{position:fixed;left:50%;top:calc(76px + var(--safe-t));transform:translate(-50%,-20px);opacity:0;z-index:50;background:var(--ink);color:var(--navy-deep);padding:10px 18px;border-radius:99px;font-weight:700;font-size:14px;transition:all .3s;pointer-events:none;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+.install{display:flex;gap:12px;align-items:flex-start;font-size:14px;color:var(--muted)}
+.install b{color:var(--ink)}
+
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{opacity:0;transform:scale(.6)}70%{transform:scale(1.06)}100%{opacity:1;transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+@media (min-width:760px){
+  .home-top{grid-template-columns:1.3fr 1fr;align-items:start}
+  .ggrid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .glist{grid-template-columns:1fr 1fr}
+  .badges{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .home-side{display:grid;gap:16px}
+}
+.home-side{display:grid;gap:16px}
+.chip .xpn{color:var(--muted);font-weight:500}
+@media (max-width:380px){
+  .tabbar button{padding:10px 12px;font-size:13px}
+  .gcard{padding:14px;min-height:140px}
+  .stats{gap:6px}
+}
+
+/* ===== تمرين اليوم ===== */
+.wk{background:linear-gradient(150deg,var(--navy-raise),var(--navy-card));position:relative;overflow:hidden}
+.wk::after{content:"";position:absolute;width:200px;height:200px;border-radius:50%;left:-70px;top:-80px;background:radial-gradient(circle,rgba(247,196,67,.28),transparent 70%);pointer-events:none}
+.wk-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.wk .tag{background:var(--yellow);color:#2a1d00}
+.wk.complete .tag{background:var(--green);color:#03210f}
+.wk h3{margin:12px 0 2px;font-size:21px;line-height:1.4}
+.wk-sub{margin:0;font-size:14px}
+.wk .bar-wrap{margin:12px 0 12px}
+.steps{display:grid;gap:8px;margin-bottom:14px;position:relative;z-index:1}
+.step{display:flex;align-items:center;gap:10px;width:100%;text-align:right;padding:10px 12px;border-radius:14px;background:rgba(11,40,56,.45);border:1.5px solid var(--line);transition:border-color .2s}
+.step:not(.static):hover{border-color:rgba(255,255,255,.3)}
+.step.next{border-color:var(--yellow)}
+.step .sn{width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:700;font-size:14px;border:1.5px solid rgba(255,255,255,.3)}
+.step.done .sn{background:var(--green);border-color:var(--green);color:#03210f}
+.step.done .sn svg{width:16px;height:16px}
+.step .gicon{width:36px;height:36px;border-radius:11px}
+.step .gicon svg{width:18px;height:18px}
+.step .st{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.45}
+.step .st b{font-size:15px}
+.step .st small{color:var(--muted);font-size:12.5px}
+.step .sp{font-weight:700;color:var(--yellow);font-variant-numeric:tabular-nums}
+.step.done .st b{opacity:.85}
+
+.lvpill{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 9px;border-radius:99px;background:var(--faint);color:var(--muted);white-space:nowrap}
+.lvpill.base{background:rgba(242,146,42,.18);color:#FFC48A}
+.lvpill.mid{background:rgba(28,140,142,.3);color:#8FE0E1}
+.lvpill.adv{background:rgba(61,182,114,.22);color:#9BE6BC}
+.gcard .lvpill{margin-top:auto;align-self:flex-start}
+.gsub{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:2px}
+.gsub .x2{margin:0}
+
+/* لمحة سريعة */
+.qi{display:grid;gap:10px}
+.qi-row{display:flex;align-items:center;gap:10px}
+.qi-row b{flex:1;font-size:15px}
+.qi-row .v{font-weight:700;font-size:18px;font-variant-numeric:tabular-nums}
+.flag{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;padding:3px 9px;border-radius:99px;white-space:nowrap}
+.flag svg{width:14px;height:14px}
+.flag.good{background:rgba(61,182,114,.18);color:#9BE6BC}
+.flag.weak{background:rgba(242,146,42,.18);color:#FFC48A}
+
+/* النتيجة */
+.delta{display:flex;align-items:center;justify-content:center;gap:8px;margin:14px auto 0;padding:10px 14px;border-radius:14px;background:var(--navy-card);border:1px solid var(--line);max-width:440px;font-size:15px}
+.delta svg{color:var(--yellow)}
+.upc{color:var(--green);font-weight:700}
+.downc{color:var(--orange);font-weight:700}
+.coach{display:flex;gap:12px;align-items:flex-start;text-align:right;background:var(--navy-card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-top:14px}
+.coach .ci{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;flex:none;background:rgba(247,196,67,.15);color:var(--yellow)}
+.coach.good .ci{background:rgba(61,182,114,.18);color:var(--green)}
+.coach.weak .ci{background:rgba(242,146,42,.18);color:var(--orange)}
+.coach b{display:block;font-size:16px;margin-bottom:2px}
+.coach p{margin:0;color:var(--ink);opacity:.9;font-size:14.5px}
+.coach .mini{display:flex;gap:14px;margin-top:8px;font-size:13px;color:var(--muted)}
+.coach .mini b{display:inline;font-size:13px;color:var(--ink)}
+.small{font-size:13px}
+.card-h{margin:0 0 12px;font-size:17px;display:flex;align-items:center;gap:8px}
+.card-h svg{color:var(--yellow)}
+
+/* التحليل */
+.heroN small{color:var(--muted);font-weight:600}
+.heroN .hn{display:block;font-size:64px;line-height:1.1;color:var(--yellow);font-variant-numeric:tabular-nums;margin:4px 0}
+.heroN p{margin:0}
+.skills{display:grid;gap:16px}
+.skh{display:flex;align-items:center;gap:8px}
+.skn{flex:1;display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px}
+.sdot{width:10px;height:10px;border-radius:3px;flex:none}
+.skv{font-weight:700;font-size:17px;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:4px}
+.tr{font-size:11px}
+.skbar{height:10px;border-radius:99px;background:rgba(255,255,255,.08);margin:7px 0 6px;overflow:hidden}
+.skbar i{display:block;height:100%;border-radius:99px;background:var(--teal);transition:width .8s}
+.skbar.empty{background:repeating-linear-gradient(135deg,rgba(255,255,255,.08) 0 6px,transparent 6px 12px)}
+.skm{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
+
+.chartwrap{position:relative}
+.readout{margin:0 0 6px;font-size:14px;color:var(--muted);min-height:22px}
+.readout b{color:var(--ink)}
+.tchart{width:100%;max-width:620px;height:auto;display:block;touch-action:pan-y}
+.tchart .grid{stroke:rgba(255,255,255,.08);stroke-width:1}
+.tchart .ax{fill:var(--muted);font-size:10px;font-family:var(--font)}
+.tchart .ln{fill:none;stroke:var(--teal);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.tchart .pt{fill:var(--teal);stroke:var(--navy-card);stroke-width:2}
+.tchart .hit{fill:transparent;cursor:pointer}
+.tchart .cross{stroke:rgba(255,255,255,.35);stroke-width:1;stroke-dasharray:3 3}
+.dots-l{margin:12px 0 6px;font-size:12.5px;color:var(--muted)}
+.dots{display:flex;gap:4px}
+.dots span{flex:1;max-width:20px;aspect-ratio:1;border-radius:6px;background:rgba(255,255,255,.07)}
+.dots span.part{background:rgba(28,140,142,.45)}
+.dots span.on{background:var(--green)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <span class="brand-mark" id="brandMark"></span>
+      <span>شعلة<small>ألعاب ضد الروتين</small></span>
+    </div>
+    <div class="chip" id="hdrChip"></div>
+  </div>
+</header>
+
+<main id="main"><div id="noapp" style="max-width:520px;margin:40px auto;padding:20px;border-radius:18px;background:#16475F;border:1px solid rgba(255,255,255,.12);text-align:center;line-height:1.8">
+<b style="font-size:20px;display:block;margin-bottom:6px">شعلة يحتاج يفتح في المتصفح</b>
+<span style="color:#A8C2CE">يبدو أن الملف انفتح في معاينة لا تشغّل التطبيق. في أندرويد: اختر "فتح باستخدام Chrome". في الآيفون: اطلب رابط شعلة وافتحه في Safari.</span>
+</div></main>
+
+<nav class="tabbar" aria-label="التنقل">
+  <button data-tab="home"></button>
+  <button data-tab="games"></button>
+  <button data-tab="me"></button>
+</nav>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ================= أيقونات ================= */
+const ICONS={
+  zap:'<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+  search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+  msg:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M12 7v3"/><path d="M12 13h.01"/>',
+  down:'<path d="M12 3v14"/><path d="m18 11-6 6-6-6"/><path d="M6 21h12"/>',
+  lock:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  eye:'<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+  spark:'<path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z"/><path d="M19 3v4"/><path d="M21 5h-4"/>',
+  help:'<circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+  users:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  home:'<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/>',
+  grid:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>',
+  award:'<circle cx="12" cy="8" r="6"/><path d="M15.5 12.9 17 22l-5-3-5 3 1.5-9.1"/>',
+  back:'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+  clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+  flame:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
+  check:'<path d="M20 6 9 17l-5-5"/>',
+  file:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h5"/>',
+  refresh:'<path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/>',
+  phone:'<rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/>'
+};
+const ic=n=>`<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]||''}</svg>`;
+const FLAME_PATH='M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z';
+document.getElementById('brandMark').innerHTML=`<svg viewBox="0 0 24 24"><defs><linearGradient id="fg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7C443"/><stop offset=".45" stop-color="#F2922A"/><stop offset=".75" stop-color="#3DB672"/><stop offset="1" stop-color="#1C8C8E"/></linearGradient></defs><path d="${FLAME_PATH}" fill="url(#fg)"/></svg>`;
+
+/* أيقونة الشاشة الرئيسية للجوال */
+(function(){try{const c=document.createElement('canvas');c.width=c.height=180;const x=c.getContext('2d');
+  x.fillStyle='#123B50';x.fillRect(0,0,180,180);
+  const g=x.createLinearGradient(0,30,0,150);g.addColorStop(0,'#F7C443');g.addColorStop(.45,'#F2922A');g.addColorStop(.75,'#3DB672');g.addColorStop(1,'#1C8C8E');
+  x.translate(30,28);x.scale(5,5);x.fillStyle=g;x.fill(new Path2D(FLAME_PATH));
+  document.getElementById('touchicon').href=c.toDataURL('image/png');}catch(e){}})();
+
+/* ================= أدوات ================= */
+const $=(s,r=document)=>r.querySelector(s);
+const el=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;};
+const ar=n=>Number(n).toLocaleString('ar-SA');
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const pick=(a,n)=>shuffle(a).slice(0,n);
+const fx=t=>{try{navigator.vibrate&&navigator.vibrate(t==='bad'?[25,40,25]:12)}catch(e){}};
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),2200);}
+const dkey=d=>d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+const today=()=>dkey(new Date());
+const yesterday=()=>{const d=new Date();d.setDate(d.getDate()-1);return dkey(d);};
+
+/* ================= الحالة ================= */
+const KEY='shoula_v1';
+let S={xp:0,games:0,best:{},plays:{},streak:0,last:null,badges:[],dailyDone:null};
+try{const d=JSON.parse(localStorage.getItem(KEY));if(d)S=Object.assign(S,d);}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+
+const LEVELS=[{n:'شرارة',x:0},{n:'جمرة',x:300},{n:'شعلة',x:900},{n:'لهب',x:2000},{n:'منارة',x:4000}];
+function lvl(xp){let i=0;LEVELS.forEach((l,k)=>{if(xp>=l.x)i=k});const c=LEVELS[i],n=LEVELS[i+1];return{i,name:c.n,next:n,pct:n?(xp-c.x)/(n.x-c.x):1};}
+
+/* ================= المحتوى ================= */
+/* طوارئ: أول ثلاثة خيارات هي الترتيب الصحيح */
+const DRILL=[
+{t:'الساعة ١٠ صباحاً توقف نظام الخدمات في الفرع فجأة. في صالة الانتظار ٤٠ مراجعاً، وأحدهم بدأ يرفع صوته.',
+ o:['أبلّغ الدعم الفني فوراً بوقت التوقف ورقم البلاغ','أعلن للمراجعين بوضوح ما حدث ومتى سأعطيهم تحديثاً','أسجّل طلبات المراجعين يدوياً لخدمتهم بالأولوية عند عودة النظام','أنتظر حتى يعود النظام ثم أعتذر للجميع','أتفرغ للمراجع الغاضب وحده قبل أي شيء آخر'],
+ w:'البلاغ أولاً لأن كل دقيقة تأخير فيه تطيل التوقف على الجميع. بعدها إعلان واحد واضح يهدّئ الصالة كلها، بمن فيهم المراجع الغاضب. ثم التسجيل اليدوي يحوّل الانتظار السلبي إلى تقدّم فعلي.'},
+{t:'٣٠٠ عامل في منشأة واحدة رفعوا بلاغات تأخر رواتب لشهرين، وبدأ الموضوع ينتشر في وسائل التواصل.',
+ o:['أتحقق من بيانات الأجور المسجلة للمنشأة لتأكيد حجم التأخير','أتواصل رسمياً مع المنشأة وأطلب خطة صرف بموعد محدد','أنسّق مع فريق التواصل رداً موحداً بأن البلاغات قيد المعالجة','أرد على كل منشور في وسائل التواصل بشكل فردي','أطبّق أقصى إجراء على المنشأة فوراً قبل التحقق'],
+ w:'لا قرار قبل التحقق، وإلا قد يُبنى الإجراء على رقم خاطئ. بعد التأكد يأتي الضغط المباشر على المنشأة لأنه يعالج أصل المشكلة، ثم رسالة إعلامية موحدة بدل ردود فردية قد تتضارب.'},
+{t:'مستفيد كبير في السن يقف أمامك ويقول إن دفعة الدعم توقفت هذا الشهر، وليس لديه حساب في أي منصة إلكترونية.',
+ o:['أستعلم عن سبب الإيقاف في النظام برقم هويته','أشرح له السبب بكلمات بسيطة دون مصطلحات','أبدأ معه إجراء الحل في نفس الزيارة أو أحيله لموظف مختص وأتابع','أطلب منه أن يعود مع أحد أبنائه لإنشاء حساب','أعطيه رقم مركز الاتصال'],
+ w:'جاء بنفسه لأن القنوات الرقمية لا تناسبه، وإعادته إليها تعني أنه سيعود بالمشكلة نفسها. اعرف السبب، اشرحه ببساطة، وابدأ الحل وهو أمامك.'},
+{t:'قبل نهاية الدوام بساعة اكتشفت أن ملف صرف أُرسل للبنك فيه ٢٠٠ اسم مكرر.',
+ o:['أبلّغ مديري وفريق المالية فوراً لإيقاف الملف قبل التنفيذ','أحصر الأسماء المكررة وأوثّق حجم الأثر','أتتبع سبب التكرار في خطوة التصدير لمنع حدوثه مجدداً','أصحح نسختي وأعيد الإرسال دون إبلاغ أحد','أؤجل الموضوع للغد لأن الدوام انتهى تقريباً'],
+ w:'الأولوية لوقف الضرر قبل وقوعه، والوقت هنا هو العامل الحاسم. التوثيق يعطي الإدارة صورة دقيقة، ومعرفة السبب تمنع تكرار الخطأ في الدورة القادمة.'},
+{t:'عاملة منزلية تتصل وتقول إن صاحب العمل سجّل عليها بلاغ تغيّب، وهي ما زالت تعمل في المنزل.',
+ o:['أوثّق إفادتها وبيانات التواصل معها بدقة','أراجع تاريخ البلاغ وحالته الحالية في النظام','أحيل الحالة للمختص بالاعتراض على البلاغات وفق الإجراء المعتمد','أخبرها أن البلاغ صحيح طالما سجله صاحب العمل','أتصل بصاحب العمل وأوبّخه'],
+ w:'أمامك طرفان وروايتان. التوثيق ثم التحقق يضمنان العدالة للطرفين، ثم الإحالة للمسار الرسمي الذي يملك صلاحية الفصل، دون حكم مسبق على أي منهما.'},
+{t:'زميلك المسؤول عن ملف عاجل غاب فجأة اليوم، والجهة الطالبة تنتظر رداً نهائياً الساعة ١٢ ظهراً.',
+ o:['أطّلع على آخر ما وصل إليه الملف في النظام أو البريد','أتواصل مع الجهة قبل الموعد وأحدد معها ما يمكن تسليمه اليوم','أبلّغ المدير بالوضع وأطلب صلاحية إكمال الملف','أنتظر عودة زميلي لأن الملف ليس من مسؤوليتي','أرسل رداً عاماً دون معرفة تفاصيل الملف'],
+ w:'لا يمكنك التصرف دون معرفة أين وقف الملف. بعدها التواصل الاستباقي أفضل من مفاجأة الطرف الآخر بالتأخير، والصلاحية الرسمية تحميك وتحمي القرار.'}
+];
+
+/* الخلل الخفي */
+const SPOT=[
+{title:'تقرير زيارة تفتيشية — منشأة للمقاولات',w:'أغلب هذه الأخطاء تأتي من النسخ واللصق من تقارير سابقة. القراءة النقدية تعني أن تسأل: هل كل رقم يتسق مع بقية الأرقام؟',
+ l:[{t:'تاريخ الزيارة: الأحد ١٢ / ٣ / ١٤٤٨هـ'},{t:'عدد العاملين حسب سجل المنشأة: ٤٨ عاملاً'},
+  {t:'عدد العاملين الذين تمت مقابلتهم: ٥٢ عاملاً',e:'لا يمكن مقابلة ٥٢ عاملاً في منشأة سجلها فيه ٤٨ فقط. إما السجل ناقص، أو الرقم خاطئ.'},
+  {t:'المخالفات المرصودة: مخالفتان'},{t:'١) عدم وجود عقود موثقة لخمسة عمال'},{t:'٢) تأخر صرف أجور شهر واحد'},
+  {t:'التوصية: لا توجد مخالفات تستدعي أي إجراء',e:'التقرير نفسه رصد مخالفتين، فالتوصية تناقض ما قبلها. غالباً نُسخت من قالب تقرير سابق.'},
+  {t:'موعد الزيارة اللاحقة: الخميس ٩ / ٣ / ١٤٤٨هـ',e:'موعد الزيارة اللاحقة يسبق تاريخ الزيارة الأولى بثلاثة أيام.'}]},
+{title:'قرار أهلية دعم (أرقام افتراضية للتمرين)',w:'كل خطأ هنا لو مرّ سيتكرر كل شهر. الدقيقة التي تقضيها في التحقق توفر شهوراً من التصحيح.',
+ l:[{t:'عدد أفراد الأسرة: ٤ أفراد'},{t:'الدخل الشهري المسجل للأسرة: ٣٬٢٠٠ ريال'},{t:'حد الأهلية لهذه الأسرة: ٣٬٠٠٠ ريال شهرياً'},
+  {t:'النتيجة: الأسرة مؤهلة لأن دخلها أقل من حد الأهلية',e:'٣٬٢٠٠ أكبر من ٣٬٠٠٠، فالمبرر المكتوب يناقض الأرقام أعلاه.'},
+  {t:'مبلغ الدعم: ٨٠٠ ريال للفرد × ٤ أفراد = ٣٬٥٠٠ ريال',e:'٨٠٠ × ٤ = ٣٬٢٠٠ وليس ٣٬٥٠٠. خطأ حسابي سيتكرر في كل دورة صرف.'},
+  {t:'بداية الصرف: الدورة القادمة'},
+  {t:'التحقق: تمت مطابقة بيانات ٣ أفراد مع سجل الأسرة',e:'القرار مبني على ٤ أفراد، لكن التحقق شمل ٣ فقط. أحدهم لم يُتحقق منه.'},
+  {t:'الموظف المختص: معتمد إلكترونياً'}]},
+{title:'محضر اجتماع فريق خدمة المستفيدين',w:'المحضر يُقرأ لاحقاً ممن لم يحضر. أي تناقض فيه يتحول إلى قرار خاطئ ينفذه شخص لم يسمع النقاش.',
+ l:[{t:'الحضور: ٦ موظفين (أحمد، سارة، فهد، نورة، خالد)',e:'العدد المكتوب ٦ والأسماء ٥ فقط.'},
+  {t:'متوسط زمن الانتظار الشهر الماضي: ١٨ دقيقة'},{t:'متوسط زمن الانتظار هذا الشهر: ٢٤ دقيقة'},
+  {t:'الاستنتاج: تحسّن زمن الانتظار بنسبة ٢٥٪',e:'الانتظار ارتفع من ١٨ إلى ٢٤ دقيقة، أي أنه ساء بنحو الثلث ولم يتحسن.'},
+  {t:'سبب الارتفاع: نقص الموظفين في الفترة الصباحية'},
+  {t:'الحل المعتمد: إضافة موظفين للفترة المسائية',e:'السبب في الفترة الصباحية، والحل يعالج الفترة المسائية.'},
+  {t:'المسؤولة عن التنفيذ: نورة'},{t:'موعد المراجعة: بعد أسبوعين'}]},
+{title:'جدول مناوبات الفرع — الأسبوع القادم',w:'الجداول تبدو صحيحة بنظرة سريعة. الحساب البسيط (الساعات، الأعداد، الإجازات) يكشف ما لا تكشفه النظرة.',
+ l:[{t:'ساعات العمل: من ٨ صباحاً إلى ٤ عصراً'},{t:'الفترة الأولى: ٨ – ١٢ (٣ موظفين)'},{t:'الفترة الثانية: ١٢ – ٤ (٣ موظفين)'},
+  {t:'إجمالي ساعات التغطية اليومية: ١٠ ساعات',e:'من ٨ صباحاً إلى ٤ عصراً = ٨ ساعات فقط.'},
+  {t:'الموظفون المتاحون: ٥، ولا يعمل أحد فترتين في اليوم نفسه'},
+  {t:'ملاحظة المشرف: الجدول يغطي كل الفترات دون أي تعارض',e:'٣ موظفين × فترتين = ٦ أشخاص، والمتاح ٥ بشرط عدم التكرار. الجدول مستحيل كما هو.'},
+  {t:'الخميس: سلمان في الفترة الأولى'},
+  {t:'إجازات الأسبوع: سلمان يوم الخميس',e:'سلمان مُدرج في مناوبة الخميس وهو في إجازة في اليوم نفسه.'}]}
+];
+
+/* محامي الشيطان: الخيار الأول هو الأقوى */
+const DEVIL=[
+{label:'القرار',t:'نكتفي بالرسائل النصية لإبلاغ المستفيدين بموعد تحديث بياناتهم، ومن لا يحدّث يُوقف صرفه.',
+ o:['جزء من المستفيدين أرقامهم قديمة أو لا يقرؤون الرسائل، فسيتوقف دعمهم دون أن يعلموا أصلاً','تكلفة الرسائل النصية مرتفعة قليلاً','الرسائل النصية أسلوب تقليدي وغير عصري','الأفضل أن تكون الرسالة أطول وأكثر تفصيلاً'],
+ w:'أقوى اعتراض هو الذي يكشف من سيتضرر بصمت. القرار يفترض أن كل الأرقام صحيحة وأن الجميع يقرأ، وهذا افتراض لم يُختبر.'},
+{label:'القرار',t:'نغلق أي شكوى تلقائياً إذا لم يرد صاحبها خلال ٣ أيام.',
+ o:['سيرتفع مؤشر الإنجاز على الورق بينما المشكلة باقية، وسيعود المشتكي بشكوى أشد أو عبر الإعلام','٣ أيام مدة قصيرة، الأفضل ٤ أيام','بعض الموظفين قد لا يحبون هذا القرار','سيحتاج النظام تعديلاً تقنياً'],
+ w:'الاعتراض القوي يسأل: ماذا نقيس فعلاً؟ الإغلاق التلقائي يحسّن الرقم لا الخدمة. تغيير المدة من ٣ إلى ٤ أيام لا يمس أصل المشكلة.'},
+{label:'القرار',t:'نقيّم أداء الموظف بعدد المعاملات التي ينجزها يومياً فقط.',
+ o:['سيُسرع الموظفون في المعاملات السهلة ويتجنبون المعقدة، وتنخفض الجودة دون أن يظهر ذلك في المؤشر','بعض الموظفين سيشعرون بالضغط','جمع الأرقام اليومية يحتاج جهداً','الأفضل أن يكون التقييم أسبوعياً'],
+ w:'أي مؤشر وحيد يتحول إلى هدف بحد ذاته. الناس سيحسّنون ما يُقاس ويهملون ما لا يُقاس.'},
+{label:'القرار',t:'كل التدريب الجديد يكون فيديو مسجلاً، ومن يُكمل الفيديو يُعتبر مدرَّباً.',
+ o:['إكمال الفيديو لا يثبت الفهم ولا القدرة على التطبيق، فقد نعتمد موظفاً لم يكتسب المهارة','الفيديوهات الطويلة مملة','بعض الأجهزة لا تشغّل الفيديو بجودة عالية','الأفضل إضافة موسيقى للفيديو'],
+ w:'الخلل في تعريف النجاح: "شاهَد" ليست "تعلّم". الاعتراض القوي يكشف الفجوة بين المؤشر والهدف.'},
+{label:'القرار',t:'نستخدم نموذج رد جاهزاً واحداً لكل استفسارات العمال عن مستحقاتهم.',
+ o:['الحالات مختلفة، فسيصل لكثيرين رد لا يجيب سؤالهم، فيعودون ويتضاعف الضغط بدل أن يقل','النموذج قد يحتوي أخطاء إملائية','الرد الجاهز يبدو رسمياً أكثر من اللازم','سيحتاج الموظفون وقتاً لحفظ النموذج'],
+ w:'الكفاءة الظاهرية قد تولّد عملاً مضاعفاً. كل رد لا يجيب يعني اتصالاً ثانياً وثالثاً.'},
+{label:'القرار',t:'ننقل كل الخدمات للمنصة الإلكترونية ونغلق شبابيك الخدمة في الفروع.',
+ o:['كبار السن ومن لا يجيدون التقنية سيُحرمون من الخدمة أو يعتمدون على وسطاء','تصميم المنصة يحتاج ألواناً أفضل','قد يشتاق الموظفون لزملائهم في الفروع','الإغلاق يحتاج إعلاناً رسمياً'],
+ w:'التحول الرقمي ممتاز، لكن محامي الشيطان يسأل: من هو المستفيد الذي لا يرى نفسه في هذا القرار؟'}
+];
+
+/* القيد المفاجئ */
+const LIMIT=[
+{label:'النص الأصلي',t:'نفيدكم بأنه تم تعليق الاستحقاق لعدم استيفاء متطلبات تحديث البيانات وفق الضوابط المنظمة، ويلزم استكمال الإجراء عبر القنوات المعتمدة.',sub:'أعد كتابتها لمستفيد كبير في السن، بدون أي مصطلح إداري',
+ o:['توقف صرف دعمك مؤقتاً لأن بياناتك تحتاج تحديث. تقدر تحدّثها من التطبيق أو تزورنا في أقرب فرع، وبعدها يرجع الصرف.','تم إيقاف الاستحقاق مؤقتاً، يرجى تحديث البيانات عبر القنوات المعتمدة.','عزيزنا المستفيد، نتمنى لك يوماً سعيداً، ونود إبلاغك بوجود ملاحظة على ملفك.','نعتذر، دعمك موقوف.'],
+ w:'الصياغة الجيدة تجيب ٣ أسئلة: ماذا حدث؟ لماذا؟ ماذا أفعل الآن؟ الخيار الثاني ما زال بالمصطلحات، والثالث لطيف بلا معلومة، والرابع يُخبر دون أن يوجّه.'},
+{label:'النص الأصلي',t:'زمن الانتظار في الفروع ارتفع خلال الربع الأخير، ويُعزى ذلك إلى عدة عوامل متداخلة منها تزامن مواسم التحديث مع إجازات عدد من الموظفين، إضافة إلى أن نسبة كبيرة من المراجعين جاءت لخدمات متاحة إلكترونياً، وقد يكون من المناسب النظر في حلول متعددة.',sub:'لخّصه في ٣ نقاط فقط، بدون كلام إنشائي',
+ o:['• الانتظار ارتفع في الربع الأخير\n• السبب: إجازات تزامنت مع موسم التحديث، ومراجعون لخدمات متاحة إلكترونياً\n• المقترح: منع تزامن الإجازات مع المواسم، وتوجيه الخدمات الإلكترونية للتطبيق','• هناك ارتفاع ملحوظ في زمن الانتظار نتيجة عوامل متعددة\n• العوامل متداخلة ومعقدة\n• يُقترح النظر في حلول متعددة','• الانتظار سيئ\n• الموظفون في إجازة\n• المراجعون كثيرون','• تم رصد الوضع\n• تمت دراسة الأسباب\n• سيتم اتخاذ اللازم'],
+ w:'كل نقطة يجب أن تحمل معلومة: ماذا، لماذا، وماذا نفعل. الخيار الثاني ثلاث نقاط بلا محتوى، والثالث فقد المقترح، والرابع يصف عملاً لم يُذكر.'},
+{label:'تغريدة غاضبة',t:'تأخرت معاملتي ٣ أسابيع ولا أحد يرد!',sub:'رد في تغريدة واحدة، بدون وعود لا تملك تنفيذها',
+ o:['نعتذر عن التأخير. راسلناك على الخاص لأخذ رقم المعاملة وتحويلها للفريق المختص، وسنحدّثك خلال يومي عمل.','نعتذر، سيتم حل مشكلتك اليوم بإذن الله.','نرجو التواصل عبر القنوات الرسمية.','نشكرك على تواصلك، رضاك يهمنا ونسعى دائماً لتقديم أفضل خدمة.'],
+ w:'الوعد بالحل "اليوم" قد ينقلب لشكوى ثانية إن لم يتحقق. الرد الجيد يعتذر، يتحرك فعلاً، ويحدد موعداً تملك الالتزام به.'},
+{label:'الموقف',t:'تحتاج من زميل في قسم آخر أعداد المستفيدين الجدد حسب المنطقة لتقرير يُرفع غداً.',sub:'رسالة واحدة يفهمها دون أن يحتاج يسألك أي سؤال',
+ o:['أحتاج عدد المستفيدين الجدد لشهر سبتمبر موزعاً على المناطق، في ملف إكسل، قبل الساعة ١٠ صباح الغد، لأنه يدخل في تقرير الإدارة. شكراً لك.','ممكن ترسل لي البيانات اللي تكلمنا عنها؟ ضروري.','السلام عليكم، أرجو التكرم بإرسال البيانات اللازمة في أقرب وقت ممكن.','أرسل لي كل بيانات المستفيدين عندك وأنا أطلع منها اللي أحتاجه.'],
+ w:'الرسالة المكتملة فيها: ماذا بالضبط، أي فترة، بأي صيغة، متى، ولماذا. كل عنصر ناقص يعني رسالة ذهاب وعودة.'},
+{label:'النص الأصلي',t:'يتوجب على صاحب العمل الالتزام بسداد الأجور في مواعيدها المحددة، وفي حال الإخلال يتم تطبيق الإجراءات النظامية المترتبة على ذلك.',sub:'اشرحها لصاحب بقالة صغيرة في جملة واحدة',
+ o:['ادفع رواتب عمّالك في موعدها كل شهر، لأن التأخير يعرّضك لعقوبات.','الالتزام بالأجور واجب نظامي ومخالفته تترتب عليها إجراءات.','يجب الالتزام بالأنظمة.','الرواتب مهمة جداً للعمال وأسرهم، والجهة حريصة على ذلك، ونتمنى من الجميع التعاون.'],
+ w:'جملة واحدة واضحة فيها الفعل المطلوب والنتيجة. الخيار الثاني اختصر لكنه احتفظ بلغة النظام.'}
+];
+
+/* بعيون المستلم */
+const EYES=[
+{label:'أنت: مستفيد رُفض طلبه',t:'وصلتك رسالة: "نأسف، تم رفض طلبك."',
+ o:['لا يوجد سبب للرفض ولا خطوة تالية، فلا تعرف هل تعيد التقديم أو تعترض أو تستسلم','الرسالة قصيرة جداً','لا تحتوي اسمك','لم تصل في وقت مناسب'],
+ w:'الرفض بدون سبب وخطوة تالية يولّد اتصالاً ومراجعة وربما شكوى. سطر إضافي واحد يوفر كل ذلك.'},
+{label:'أنت: صاحب منشأة يعبّئ نموذجاً',t:'نموذج إلكتروني من ٥ صفحات يطلب رقم السجل التجاري في الصفحة الأولى، ثم الثالثة، ثم الخامسة.',
+ o:['تكرار إدخال المعلومة نفسها يوحي بأن الجهة لا تقرأ ما قدمته، ويضاعف فرصة الخطأ','ألوان النموذج غير جذابة','الخط صغير قليلاً','النموذج لا يحتوي صوراً'],
+ w:'من يصمم النموذج يرى كل صفحة منفصلة، ومن يعبّئه يرى رحلة كاملة. التكرار لا يظهر إلا من مقعد المستخدم.'},
+{label:'أنت: المدير الذي يستلم التقرير',t:'تقرير من ١٤ صفحة، والقرار المطلوب منك موجود في الصفحة ١١.',
+ o:['القرار المطلوب مدفون، وقد تقرأ ١٠ صفحات قبل أن تعرف لماذا وصلك التقرير أصلاً','التقرير يحتوي جداول كثيرة','الغلاف بسيط','الخط ليس الخط الرسمي'],
+ w:'من مقعد المستلم: أول سطر يجب أن يقول ماذا تريد منه. البقية تفاصيل لمن يحتاجها.'},
+{label:'أنت: متصل بمركز الاتصال',t:'تسمع "مكالمتك مهمة لنا" كل دقيقة لمدة ٢٥ دقيقة، بدون أي تقدير لوقت الانتظار.',
+ o:['عدم معرفة كم ستنتظر أصعب من الانتظار نفسه، والعبارة المكررة تفقد صدقها بعد الدقيقة العاشرة','الموسيقى غير مناسبة','صوت التسجيل رسمي','لا توجد خيارات بلغات أخرى'],
+ w:'إخبار المتصل بترتيبه أو الوقت المتوقع، أو عرض معاودة الاتصال، يغيّر تجربته حتى لو بقي زمن الانتظار نفسه.'},
+{label:'أنت: صاحب منشأة صغيرة',t:'وصلك إشعار مخالفة يذكر أرقام المواد النظامية فقط، دون شرح ما المخالفة أو كيف تصححها.',
+ o:['لا تعرف الخطأ الذي ارتكبته ولا كيف تصححه، فقد تكرره وأنت لا تدري','الإشعار وصل بالبريد الإلكتروني','لا يحتوي شعاراً واضحاً','صيغة التاريخ هجرية فقط'],
+ w:'الهدف من المخالفة تصحيح السلوك. إن لم يفهم صاحب المنشأة المطلوب، فالإشعار حقق العقوبة وفشل في الهدف.'},
+{label:'أنت: الزميل الذي يستلم المعاملة بعدك',t:'تصلك المعاملة بملاحظة واحدة: "تم اللازم، يُستكمل".',
+ o:['لا تعرف ما الذي تم وما الذي بقي، فستعيد التحقق من كل شيء من البداية','الملاحظة مكتوبة بخط اليد','وصلت آخر الدوام','لا تحتوي تحية'],
+ w:'"تم اللازم" واضحة لكاتبها فقط. سطران عمّا أُنجز وما بقي يوفران على زميلك نصف ساعة.'}
+];
+
+/* لماذا الخمسة: [الجذر، لوم، عَرَض] */
+const WHYS=[
+{p:'تكررت شكاوى المستفيدين من تأخر الرد على طلباتهم.',
+ s:[['الطلبات تتكدس عند مرحلة المراجعة الثانية','الموظفون لا يهتمون بالمستفيدين','الردود تتأخر عن موعدها'],
+    ['كل الطلبات تمر على المراجعة الثانية، حتى البسيطة منها','المراجع الثاني بطيء في عمله','هناك تكدس كبير في الطلبات'],
+    ['لا يوجد تصنيف للطلبات حسب درجة تعقيدها','المدراء يحبون مراجعة كل شيء','هذا هو الإجراء المتبع'],
+    ['الإجراء كُتب قبل سنوات حين كان عدد الطلبات قليلاً، ولم يُحدّث','لا أحد يهتم بتطوير الإجراءات','الإجراء قديم'],
+    ['لا يوجد مالك محدد للإجراء ولا موعد دوري لمراجعته','الإدارة مشغولة بأمور أخرى','لم يراجعه أحد']],
+ r:'الجذر ليس الموظف ولا المراجع، بل غياب مالك للإجراء. الحل الجذري: مالك لكل إجراء، ومراجعة دورية، وتصنيف يمرّر الطلبات البسيطة مباشرة.'},
+{p:'موظفو الفرع يُدخلون بيانات خاطئة في نموذج التسجيل بشكل متكرر.',
+ s:[['حقل رقم الهوية وحقل رقم الجوال متجاوران ومتشابهان في الشكل','الموظفون غير مركزين','البيانات المدخلة فيها أخطاء'],
+    ['النظام يقبل أي رقم دون التحقق من صيغته','الموظفون مستعجلون دائماً','الأخطاء تتكرر في الحقلين نفسيهما'],
+    ['متطلبات النظام لم تتضمن قواعد للتحقق من البيانات','المبرمج لم يقم بعمله جيداً','النظام لا يتحقق من الإدخال'],
+    ['موظفو الخطوط الأمامية لم يُشركوا في كتابة المتطلبات','فريق المتطلبات لا يفهم العمل','المتطلبات ناقصة'],
+    ['لا توجد آلية لنقل ملاحظات الميدان إلى فريق تطوير الأنظمة','الأقسام لا تحب التعاون','لم يُسأل الموظفون']],
+ r:'لوم الموظف كان سيؤدي إلى تعميم "انتبهوا أكثر" يُنسى بعد أسبوع. الجذر قناة مفقودة بين الميدان والتطوير. أنشئها، وأضف تحققاً تلقائياً من الصيغة.'},
+{p:'التقرير الشهري للإدارة تأخر ثلاثة أشهر متتالية.',
+ s:[['بيانات الأقسام تصل متأخرة لمعدّ التقرير','معدّ التقرير لا يلتزم بالمواعيد','التقرير يتأخر كل شهر'],
+    ['كل قسم يرسل بياناته بصيغة مختلفة تحتاج توحيداً يدوياً','الأقسام لا تحترم المواعيد','البيانات لا تصل في وقتها'],
+    ['لا يوجد قالب موحد تلتزم به الأقسام','كل قسم يحب العمل بطريقته','الصيغ مختلفة'],
+    ['القالب الموجود لا يناسب بيانات بعض الأقسام فتركوه','الأقسام لا تقرأ التعاميم','لا أحد يستخدم القالب'],
+    ['القالب صُمم دون سؤال الأقسام عن طبيعة بياناتها','من صمم القالب لم يجتهد','القالب غير مناسب']],
+ r:'المشكلة بدأت بقالب صُمم من طرف واحد. الحل: ورشة قصيرة مع الأقسام لإعادة تصميمه، فيصبح الالتزام سهلاً لأنه يناسبهم.'}
+];
+
+const USES=[
+{n:'مشبك ورق',h:'شيء صغير جداً، لكن كم استخداماً يخطر ببالك؟'},
+{n:'جهاز تذاكر الانتظار',h:'الآلة التي تطبع الأرقام في صالة الفرع'},
+{n:'كرسي الانتظار في الفرع',h:'فكّر أبعد من الجلوس'},
+{n:'ختم المعاملات',h:'ماذا يمكن أن يفعل غير الختم؟'},
+{n:'شاشة نداء الأرقام',h:'الشاشة التي تنادي على المراجعين'},
+{n:'رزمة نماذج ورقية لم تعد مستخدمة',h:'كرتون كامل منها في المستودع'}
+];
+
+const PUZ=[
+{p:'فرع يستقبل ٢٠٠ مراجع يومياً. بعد تركيب شاشة جديدة تعرض الأرقام، زادت شكاوى الانتظار، مع أن زمن الانتظار الفعلي قلّ. لماذا؟',
+ q:[['هل تعمل الشاشة بشكل صحيح؟','نعم'],['هل زاد عدد المراجعين؟','لا'],['هل تغيّر عدد الموظفين؟','لا'],['هل تعرض الشاشة عدد المنتظرين قبلك؟','نعم'],['هل كان المراجعون سابقاً لا يعرفون كم شخصاً أمامهم؟','نعم'],['هل الشاشة في مكان لا يراه الجميع؟','لا'],['هل للمعلومة المعروضة أثر نفسي؟','نعم'],['هل الشكاوى عن موظف معيّن؟','لا']],
+ o:['صار المراجع يرى "٤٥ قبلك" فور دخوله فيُحبط، بينما كان سابقاً لا يعرف','الشاشة صغيرة ولا تُقرأ بوضوح','الشكاوى من فرع آخر سُجلت بالخطأ','الموظفون صاروا أبطأ بسبب الشاشة'],
+ w:'عرض معلومة بلا سياق قد يزيد التوتر. لو عرضت الشاشة الوقت المتوقع بدل العدد، لتغيّرت التجربة.'},
+{p:'قسم أضاف خطوة تدقيق ثانية لتقليل الأخطاء، فارتفعت الأخطاء بعد شهر. لماذا؟',
+ q:[['هل المدقق الثاني غير مؤهل؟','لا'],['هل زاد حجم العمل؟','لا'],['هل تغيّر النظام المستخدم؟','لا'],['هل غيّر الموظف الأول طريقة عمله بعد إضافة التدقيق؟','نعم'],['هل صار الموظف الأول يعتمد على وجود من يراجع بعده؟','نعم'],['هل يراجع المدقق الثاني كل التفاصيل؟','لا'],['هل يفترض المدقق الثاني أن الأول دقّق جيداً؟','نعم'],['هل للأمر علاقة بالرواتب؟','غير مهم']],
+ o:['كل طرف صار يعتمد على الآخر: الأول خفف تركيزه لأن هناك مدققاً، والمدقق افترض أن الأول دقّق. المسؤولية تشتتت','المدقق الثاني يُدخل أخطاء جديدة بنفسه','الخطوة الجديدة أبطأت العمل فزاد الضغط','الموظفون اعترضوا على الخطوة فتعمّدوا الخطأ'],
+ w:'إضافة طبقة رقابة دون تحديد مسؤولية كل طبقة قد تُضعف الطبقتين معاً. الأفضل: كل مرحلة مسؤولة عن نوع محدد من الأخطاء.'},
+{p:'مستفيدة اتصلت بمركز الاتصال ٥ مرات في يوم واحد، وفي كل مرة قيل لها إن مشكلتها حُلّت، ولم يكذب أي موظف. كيف؟',
+ q:[['هل كذب أحد الموظفين؟','لا'],['هل كانت تتصل برقم خاطئ؟','لا'],['هل المشكلة مرتبطة بأكثر من نظام؟','نعم'],['هل كان كل موظف يرى جزءاً واحداً من الحالة؟','نعم'],['هل حلّ كل موظف شيئاً فعلاً؟','نعم'],['هل يوجد موظف مسؤول عن الحالة من البداية للنهاية؟','لا'],['هل كانت تشرح مشكلتها بشكل خاطئ؟','لا'],['هل للأمر علاقة بوقت الاتصال؟','غير مهم']],
+ o:['المشكلة موزعة على عدة أنظمة، وكل موظف أصلح الجزء الذي يراه وأغلق البلاغ، ولا أحد يملك الحالة كاملة','النظام كان يغلق البلاغات تلقائياً','كانت تتصل بخصوص ٥ مشاكل مختلفة','الموظفون كانوا متدربين جدداً'],
+ w:'"حُلّت" من زاوية كل موظف، لكنها لم تُحل من زاوية المستفيدة. الحالات العابرة للأنظمة تحتاج مالكاً واحداً يتابعها حتى النهاية.'}
+];
+
+/* === محتوى إضافي (يُلحق بنهاية القوائم حتى تبقى أرقام الأسئلة ثابتة) === */
+DRILL.push(
+{t:'اكتشفت أن رسالة جماعية أُرسلت لـ ٥ آلاف مستفيد تخبرهم بإيقاف دعمهم، والصحيح أنها كانت موجهة لـ ٥٠ فقط.',
+ o:['أوقف أي إرسال متبقٍ فوراً وأبلّغ المسؤول','أجهّز رسالة تصحيح واعتذار واضحة للمستفيدين المتأثرين','أنبّه مركز الاتصال والفروع بما حدث وبالرد الموحّد','أنتظر حتى يتصل المستفيدون ثم أشرح لكل واحد','أحذف سجل الإرسال حتى لا يُحسب خطأً'],
+ w:'أوقف النزيف أولاً، ثم صحّح للمتأثرين قبل أن يتصلوا، ثم جهّز الخط الأمامي لأن الاتصالات قادمة لا محالة.'},
+{t:'في منتصف دورة تقدمها لموظفين جدد، تعطّل جهاز العرض والعرض التقديمي غير متاح.',
+ o:['أحدد أهم ٣ أفكار في الدورة وأركز عليها','أحوّل الجزء التالي إلى نقاش وأمثلة من واقع عملهم','أطلب الدعم الفني لإصلاح الجهاز في الاستراحة','ألغي الدورة وأعيد جدولتها','أقرأ الشرائح من جوالي بصوت عالٍ'],
+ w:'المحتوى في رأسك لا في الجهاز. حدد الجوهر، واستغل الموقف بنقاش يعلق في الذاكرة أكثر من الشرائح، ثم عالج العطل دون إيقاف الجلسة.'},
+{t:'صاحب منشأة يتصل غاضباً: تصنيف منشأته انخفض فجأة وتوقفت خدمات مهمة عنده، ويقول إن لديه عقوداً تنتهي اليوم.',
+ o:['أهدّئه وأؤكد أنني سأبحث حالته الآن','أراجع بيانات المنشأة لمعرفة سبب انخفاض التصنيف','أشرح له السبب والمسار المتاح لحالته بخطوات واضحة','أخبره أن التصنيف آلي ولا يمكن فعل شيء','أحوّله لقسم آخر دون الاطلاع على حالته'],
+ w:'الغاضب يحتاج أولاً أن يشعر أن أحداً يمسك ملفه. بعدها البيانات تحدد السبب، والشرح الواضح يحوّل الغضب إلى خطة.'},
+{t:'وصلك بلاغ من موظف في الفرع: مراجع سقط مغشياً عليه في صالة الانتظار.',
+ o:['أتأكد أن الإسعاف طُلب وأن أحداً بجانبه الآن','أخلي المكان حوله وأوجّه موظفاً لاستقبال الإسعاف عند الباب','أوثّق الحادثة وأبلّغ الإدارة بعد استقرار الوضع','أرد بأنني سأتابع الموضوع لاحقاً','أطلب صورة للموقف قبل أي إجراء'],
+ w:'سلامة الإنسان تسبق أي إجراء. بعد التأكد من الإسعاف، تنظيم المكان يسرّع وصولهم، والتوثيق يأتي بعد زوال الخطر.'}
+);
+SPOT.push(
+{title:'تقرير إنجاز أسبوعي — فريق معالجة الطلبات',w:'التقارير الأسبوعية تُقرأ سريعاً وتُبنى عليها قرارات. اجمع واطرح قبل أن تعتمد أي نسبة.',
+ l:[{t:'الطلبات الواردة هذا الأسبوع: ٤٠٠ طلب'},{t:'الطلبات المنجزة: ٣٢٠ طلباً'},{t:'الطلبات قيد المعالجة: ٦٠ طلباً'},
+  {t:'المجموع: ٤٠٠ طلب (منجز + قيد المعالجة)',e:'٣٢٠ + ٦٠ = ٣٨٠ وليس ٤٠٠. هناك ٢٠ طلباً لا يعرف أحد أين هي.'},
+  {t:'نسبة الإنجاز: ٩٠٪',e:'٣٢٠ من ٤٠٠ = ٨٠٪ فقط.'},
+  {t:'أكثر يوم إنجازاً: الأحد (٨٥ طلباً)'},{t:'أقل يوم إنجازاً: الخميس (٥٥ طلباً)'},
+  {t:'متوسط الإنجاز اليومي: ٧٠ طلباً على مدى ٥ أيام',e:'٧٠ × ٥ = ٣٥٠، والمنجز ٣٢٠ فقط. المتوسط الصحيح ٦٤.'}]},
+{title:'طلب شراء — شاشات لقاعة التدريب',w:'طلبات الشراء تمر على أكثر من شخص، وكل واحد يفترض أن غيره راجع الأرقام. كن أنت من يراجع.',
+ l:[{t:'الصنف: شاشات عرض للقاعة'},{t:'العدد المطلوب: ٤ شاشات'},{t:'سعر الشاشة الواحدة: ٢٬٥٠٠ ريال'},
+  {t:'الإجمالي: ١٢٬٠٠٠ ريال',e:'٤ × ٢٬٥٠٠ = ١٠٬٠٠٠ ريال.'},
+  {t:'المبرر: القاعة فيها جداران فقط يمكن التركيب عليهما'},
+  {t:'التركيب: شاشتان على كل جدار من الجدران الثلاثة',e:'شاشتان × ٣ جدران = ٦ شاشات، والمبرر نفسه يقول إن القاعة فيها جداران فقط.'},
+  {t:'تاريخ الصرف: ٥ / ٤'},
+  {t:'تاريخ اعتماد الطلب: ١٢ / ٤',e:'الصرف تم قبل اعتماد الطلب بأسبوع. الترتيب الإجرائي مقلوب.'}]}
+);
+DEVIL.push(
+{label:'القرار',t:'نلغي الاجتماع الأسبوعي للفريق ونكتفي بالتحديثات المكتوبة.',
+ o:['المشاكل التي تحتاج نقاشاً سريعاً بين أكثر من شخص ستتأخر أو تضيع في سلاسل الرسائل','بعض الموظفين يحبون الاجتماعات','التحديثات المكتوبة تحتاج وقتاً للقراءة','قد ينسى أحدهم إرسال تحديثه'],
+ w:'الاعتراض القوي لا يدافع عن الاجتماع نفسه، بل عمّا يؤديه: حل المشكلات المشتركة بسرعة.'},
+{label:'القرار',t:'نقيس رضا المستفيدين باستبيان يُرسل فقط لمن أُغلقت طلباتهم بنجاح.',
+ o:['من رُفضت طلباتهم أو تعثرت لن يُسألوا، فيظهر الرضا أعلى من الحقيقة','الاستبيان قد يكون طويلاً','بعض المستفيدين لا يحبون الاستبيانات','الأفضل إرسال الاستبيان صباحاً'],
+ w:'هذا تحيّز في العينة: تسأل الراضين فقط ثم تحتفل بالرضا.'},
+{label:'القرار',t:'نُلزم كل الموظفين بتغيير كلمة المرور كل أسبوع لرفع الأمان.',
+ o:['التغيير المتكرر يدفع الناس لكلمات مرور ضعيفة أو مكتوبة على ورق، فينخفض الأمان فعلياً','سيكون مزعجاً قليلاً','الدعم الفني سيتلقى اتصالات أكثر','الأفضل كل أسبوعين'],
+ w:'أقوى اعتراض يُظهر أن القرار قد يحقق عكس هدفه، لا أنه مزعج فقط.'},
+{label:'القرار',t:'نوزّع الطلبات على الموظفين بالتساوي: كل موظف يأخذ نفس العدد يومياً.',
+ o:['الطلبات ليست متساوية في صعوبتها، فسيتأخر من تقع عليه المعقدة ويُظلم في التقييم','بعض الموظفين أسرع من غيرهم','التوزيع اليدوي يأخذ وقتاً','قد يتغيب أحد الموظفين'],
+ w:'العدل في الأرقام ليس عدلاً في الجهد. المساواة في العدد تخفي تفاوت الصعوبة.'}
+);
+LIMIT.push(
+{label:'الموقف',t:'تحتاج إقناع مديرك في المصعد (٣٠ ثانية) بتعيين موظف إضافي للفترة الصباحية.',sub:'جملتان فقط: المشكلة بالأرقام، ثم الطلب',
+ o:['الانتظار الصباحي ارتفع من ١٨ إلى ٢٤ دقيقة لأننا ٣ موظفين مقابل ١٢٠ مراجعاً. موظف إضافي واحد في الصباح يعيدنا تحت ٢٠ دقيقة.','عندنا ضغط كبير في الصباح والموظفون تعبانين، ونحتاج دعم.','أتمنى نجلس اجتماع نناقش فيه وضع الفترة الصباحية بالتفصيل.','الفترة الصباحية تحتاج إعادة نظر شاملة في الهيكل التنظيمي.'],
+ w:'في ثلاثين ثانية: رقم يثبت المشكلة، وطلب محدد بنتيجة متوقعة. الانطباعات وحدها لا تقنع.'},
+{label:'النص الأصلي',t:'عزيزي الموظف، نود إحاطتكم علماً بأنه سيتم بإذن الله تعالى إجراء أعمال صيانة دورية مجدولة على الأنظمة الإلكترونية وذلك يوم الخميس القادم من الساعة الثامنة مساءً وحتى الساعة الثانية عشرة منتصف الليل، وعليه نأمل منكم أخذ العلم.',sub:'رسالة جوال لا تتجاوز سطرين',
+ o:['الخميس من ٨ م إلى ١٢ ص: الأنظمة متوقفة للصيانة. أنهِ معاملاتك قبل الساعة ٨.','نحيطكم علماً بوجود صيانة دورية مجدولة للأنظمة يوم الخميس.','صيانة الخميس، نأمل أخذ العلم.','عزيزي الموظف، سيتم بإذن الله إجراء صيانة دورية مجدولة على الأنظمة، نأمل أخذ العلم والاستعداد.'],
+ w:'الرسالة القصيرة الجيدة تحتفظ بالمعلومة الحرجة (الوقت) وتضيف ما يجب فعله. الحذف يكون للمجاملات لا للتفاصيل.'},
+{label:'المصطلح',t:'"المستندات المطلوبة لإثبات الحالة الاجتماعية"',sub:'حوّلها لسؤال واحد بسيط لمستفيدة',
+ o:['هل معك الورقة الرسمية اللي تثبت وضعك الحالي، مثل عقد الزواج أو صك الطلاق؟','هل لديك المستندات المطلوبة لإثبات الحالة الاجتماعية؟','ما هي حالتك الاجتماعية؟','هل استوفيتِ متطلبات التوثيق؟'],
+ w:'السؤال البسيط يسمّي الأشياء بأسمائها. "المستندات المطلوبة" واضحة لك وغامضة لها.'}
+);
+EYES.push(
+{label:'أنت: موظف جديد في أول يوم',t:'تستلم ملفاً من ٤٠ صفحة فيه كل الأنظمة واللوائح، ويُطلب منك البدء بخدمة المراجعين بعد ساعة.',
+ o:['لا تعرف ما الذي تحتاجه الآن تحديداً، فكل شيء يبدو بنفس الأهمية وتبدأ وأنت قلق','الملف ثقيل في الحمل','الخط صغير','لا يوجد فهرس ملوّن'],
+ w:'من مقعد الجديد: أهم شيء ورقة واحدة فيها أكثر ٥ حالات سيواجهها اليوم وكيف يتصرف. البقية تُقرأ لاحقاً.'},
+{label:'أنت: مراجع في صالة الانتظار',t:'الشاشة تنادي الأرقام، لكن بعض الأرقام تُتجاوز دون شرح، ومن جاء بعدك دخل قبلك.',
+ o:['تشعر أن الدور غير عادل لأنك لا تعرف أن هناك أنواع خدمات بطوابير مختلفة','الكراسي غير مريحة','الشاشة بعيدة قليلاً','لا يوجد ماء في الصالة'],
+ w:'النظام قد يكون عادلاً فعلاً، لكن ما لا يُشرح يُفهم كظلم. لافتة واحدة عن الطوابير تحل المشكلة.'},
+{label:'أنت: زميل في قسم آخر',t:'تصلك ٦ رسائل في يوم واحد من نفس الشخص، كل واحدة فيها جزء من الطلب.',
+ o:['لا تعرف متى اكتمل الطلب لتبدأ، وقد تعمل على نسخة ناقصة','الرسائل بدون تحية','أسلوب الكتابة رسمي','الرسائل جاءت في وقت الدوام'],
+ w:'رسالة واحدة مكتملة أفضل من ست رسائل سريعة. التقطيع يوفّر وقت المرسل ويضاعف وقت المستلم.'}
+);
+WHYS.push(
+{p:'المستفيدون يتصلون بمركز الاتصال ليسألوا عن معلومة موجودة أصلاً في الموقع.',
+ s:[['الإجابة موجودة لكنهم لا يجدونها','المستفيدون لا يقرؤون','الاتصالات كثيرة'],
+    ['الصفحة مكتوبة بمصطلحات الجهة لا بكلمات المستفيد','المستفيدون لا يبحثون جيداً','لا يجدون الإجابة'],
+    ['المحتوى كُتب من وجهة نظر النظام لا من سؤال المستفيد','الكاتب لا يجيد الكتابة','الصياغة غير مناسبة'],
+    ['لم يُختبر المحتوى مع مستفيدين حقيقيين قبل النشر','لا أحد يهتم بالموقع','المحتوى لم يُراجع'],
+    ['إجراء نشر المحتوى لا يتضمن خطوة اختبار مع المستخدمين','فريق المحتوى مستعجل دائماً','لم يُختبر']],
+ r:'الحل الجذري: خطوة اختبار بسيطة (خمسة مستفيدين يبحثون عن الإجابة) قبل نشر أي صفحة، واستخدام كلمات الأسئلة الواردة لمركز الاتصال نفسها.'},
+{p:'موظفون متميزون في أحد الفروع يطلبون النقل إلى فروع أخرى.',
+ s:[['يشعرون أن جهدهم الإضافي لا يُرى','لا يحبون الفرع','يريدون الانتقال'],
+    ['التقييم يقيس عدد المعاملات فقط، ولا يقيس الحالات الصعبة التي يتولونها','المدير لا يقدّرهم','تقييمهم لا يعكس جهدهم'],
+    ['نموذج التقييم موحّد لكل الأدوار','الموارد البشرية لا تفهم العمل','التقييم ناقص'],
+    ['النموذج صُمم مركزياً دون تمييز بين الأدوار المختلفة','المصمم لم يجتهد','النموذج عام'],
+    ['لا توجد آلية لتكييف معايير التقييم حسب طبيعة الدور','التغيير صعب في الجهات الكبيرة','لم يُكيَّف']],
+ r:'الحل الجذري: معايير تقييم تختلف حسب الدور وتعطي وزناً للحالات الصعبة. الشكر أو المكافأة وحدها لن توقف طلبات النقل.'}
+);
+USES.push({n:'سلة المهملات',h:'فكّر خارج وظيفتها تماماً'},{n:'لوحة الإعلانات الفلّينية',h:'في ممر الموظفين'},{n:'طابعة الفرع',h:'أكثر من مجرد طباعة'});
+PUZ.push(
+{p:'فريق خفّض زمن معالجة الطلبات إلى النصف، فارتفعت شكاوى المستفيدين. لماذا؟',
+ q:[['هل زادت الأخطاء في الطلبات؟','نعم'],['هل تغيّر عدد الموظفين؟','لا'],['هل صار الموظفون يتخطون خطوات تحقق؟','نعم'],['هل الشكاوى عن التأخير؟','لا'],['هل يعود المستفيدون بنفس الطلب مرة ثانية؟','نعم'],['هل تغيّر النظام؟','لا'],['هل كان الهدف الجديد زمن المعالجة فقط؟','نعم'],['هل للأمر علاقة بالموسم؟','غير مهم']],
+ o:['ركّز الفريق على السرعة وحدها فتخطّى خطوات تحقق، فزادت الأخطاء وعاد المستفيدون بنفس طلباتهم','الطلبات صارت أصعب','المستفيدون لم يلاحظوا التحسن','الشكاوى كانت مكبوتة وظهرت فجأة'],
+ w:'هدف واحد يُقاس يُحسَّن على حساب كل ما لا يُقاس. السرعة بلا جودة تنقل العمل إلى المستفيد ثم تعيده مضاعفاً.'},
+{p:'فرع فيه ٦ شبابيك. في يوم كان يعمل فيه ٤ موظفين فقط، كان الانتظار أقل من يوم عمل فيه ٦ موظفين. لماذا؟',
+ q:[['هل كان عدد المراجعين أقل في يوم الأربعة؟','لا'],['هل كانت أنواع الطلبات مختلفة؟','لا'],['هل كان النظام أسرع؟','لا'],['هل وقف أحد الموظفين عند الباب؟','نعم'],['هل وصل المراجعون للشباك بأوراق مكتملة؟','نعم'],['هل كان أحد الأربعة يوجّه كل مراجع للشباك الصحيح؟','نعم'],['هل الأربعة أكثر خبرة؟','غير مهم'],['هل تغيّر وقت الدوام؟','لا']],
+ o:['أحدهم وقف عند الباب يتحقق من اكتمال الأوراق ويوجّه كل مراجع للمكان الصحيح، فلم يضِع وقت الشبابيك على طلبات ناقصة','الموظفون الأربعة كانوا أسرع','المراجعون كانوا أقل','النظام كان أسرع ذلك اليوم'],
+ w:'أحياناً موظف يمنع الهدر أنفع من موظف يزيد السعة. جزء كبير من وقت الشباك يضيع على طلبات ناقصة أو في المكان الخطأ.'}
+);
+
+/* ================= المهارات ================= */
+ICONS.chart='<path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/>';
+ICONS.target='<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>';
+ICONS.up='<path d="m18 15-6-6-6 6"/>';
+ICONS.trend='<path d="M22 7 13.5 15.5 8.5 10.5 2 17"/><path d="M16 7h6v6"/>';
+ICONS.dumbbell='<path d="M6.5 6.5h11"/><path d="M6.5 17.5h11"/><path d="M6 20v-16"/><path d="M18 20v-16"/><path d="M3 9v6"/><path d="M21 9v6"/>';
+
+const SK={
+ drill:{n:'سرعة القرار',d:'ترتيب الأولويات تحت الضغط',
+  weak:'قبل أي تصرف اسأل: ما الذي يوقف الضرر الآن؟ ابدأ به، ثم أبلغ من يتأثر، ثم عالج السبب.',
+  strong:'حدسك للأولويات جيد. جرّب أن تكون صاحب الخطوة الأولى في أي أزمة حقيقية بفريقك.'},
+ spot:{n:'الملاحظة الدقيقة',d:'اكتشاف التناقض قبل أن يمر',
+  weak:'اقرأ المستند كأرقام لا كنص: اجمع، اطرح، وقارن التواريخ ببعضها قبل أن توقّع على أي شيء.',
+  strong:'عينك تلتقط ما يفوت غيرك. اعرض أن تكون المراجع الأخير لتقارير فريقك المهمة.'},
+ devil:{n:'التفكير النقدي',d:'رؤية ما قد يفشل قبل حدوثه',
+  weak:'لكل قرار اسأل: من سيتضرر بصمت؟ وهل يمكن أن ينجح القرار في المؤشر ويفشل في الهدف؟',
+  strong:'ترى الثغرات مبكراً. اطرحها في الاجتماعات بصيغة "ماذا لو" حتى تُسمع دون أن تبدو معارضة.'},
+ whys:{n:'تحليل الجذور',d:'الوصول للسبب الحقيقي بدل اللوم',
+  weak:'عندما تجد نفسك تقول "الموظف أخطأ"، توقف واسأل: ما الذي في الإجراء جعل الخطأ سهلاً؟',
+  strong:'تحفر حتى الجذر ولا تكتفي باللوم. استخدم هذا في مراجعة أي خطأ متكرر في قسمك.'},
+ limit:{n:'وضوح التواصل',d:'رسالة يفهمها المستلم من أول قراءة',
+  weak:'كل رسالة تجيب ثلاثة أسئلة: ماذا حدث؟ لماذا؟ ماذا يفعل المستلم الآن؟ احذف كل كلمة لا تخدم واحداً منها.',
+  strong:'رسائلك واضحة ومباشرة. ساعد زملاءك بإعادة صياغة القوالب الرسمية المعقدة في قسمك.'},
+ eyes:{n:'منظور الآخر',d:'رؤية العمل من مقعد المستلم',
+  weak:'قبل إرسال أي مخرج، اقرأه مرة وأنت تتخيل أنك المستلم المستعجل. ما أول سؤال سيخطر له؟',
+  strong:'تفهم المستلم جيداً. شارك في مراجعة النماذج والرسائل التي تصل للمستفيدين.'},
+ uses:{n:'الإبداع',d:'توليد بدائل غير معتادة',
+  weak:'أول ثلاث أفكار دائماً متوقعة، والأفكار الجيدة تأتي بعد الخامسة. لا تتوقف مبكراً.',
+  strong:'تولّد بدائل بسهولة. عندما يعلق فريقك في حل واحد، اقترح ثلاثة بدائل قبل التصويت.'},
+ puzzle:{n:'الاستنتاج',d:'الوصول للحل بأسئلة ذكية',
+  weak:'لا تسأل عن الحل مباشرة. اسأل أسئلة تستبعد نصف الاحتمالات في كل مرة.',
+  strong:'تصل للحل بأقل المعلومات. أنت مناسب لاستقبال البلاغات الغامضة وتحديد أصلها.'}
+};
+const SKSHORT={drill:'القرار',spot:'الملاحظة',devil:'النقد',whys:'الجذور',limit:'الوضوح',eyes:'المنظور',uses:'الإبداع',puzzle:'الاستنتاج'};
+
+/* ================= الألعاب ================= */
+const GAMES=[
+ {id:'drill',name:'طوارئ الخمس دقائق',short:'أزمة مفاجئة: رتّب أول ٣ خطوات',why:'الروتين يقتل الجاهزية. المواقف غير المجدولة تعيد تدريب العقل على تحديد الأولويات بسرعة تحت ضغط خفيف.',color:'orange',icon:'zap',eng:'order',data:DRILL,n:4,wn:2,time:45},
+ {id:'spot',name:'الخلل الخفي',short:'مستند مكتمل فيه ٣ أخطاء منطقية',why:'تحوّلك من مُنجز آلي للمهام إلى مدقق نقدي يرى ما وراء السطور.',color:'teal',icon:'search',eng:'spot',data:SPOT,n:2,wn:1,time:90},
+ {id:'devil',name:'محامي الشيطان',short:'اختر أقوى اعتراض على قرار معتاد',why:'تجبر العقل على التفكير في الاحتمالات البعيدة وتوقّع المشاكل قبل حدوثها.',color:'yellow',icon:'msg',eng:'mcq',data:DEVIL,n:5,wn:3,time:25,prompt:'ما أقوى اعتراض على هذا القرار؟'},
+ {id:'whys',name:'لماذا الخمسة',short:'احفر خمس مرات حتى تصل للجذر',why:'تمنع الاكتفاء بالحلول الترقيعية، وتدرّب على الحفر حتى الجذر بدل توجيه اللوم.',color:'green',icon:'down',eng:'whys',data:WHYS,n:1,wn:1},
+ {id:'limit',name:'القيد المفاجئ',short:'نفس الرسالة، لكن بقيد جديد',why:'منع الصيغة المعتادة يجبر العقل على إعادة تقييم ما يكتب بدل النسخ واللصق الذهني.',color:'orange',icon:'lock',eng:'mcq',data:LIMIT,n:5,wn:3,time:35,prompt:'أي صياغة تحترم القيد وتؤدي الغرض؟'},
+ {id:'eyes',name:'بعيون المستلم',short:'اجلس في مقعد من يستلم عملك',why:'تبديل الزاوية يعيد الفضول ويكشف ثغرات لا تُرى من مقعدك.',color:'teal',icon:'eye',eng:'mcq',data:EYES,n:5,wn:3,time:25,prompt:'من مقعدك هذا، ما الذي يزعجك أكثر؟'},
+ {id:'uses',name:'١٠ استخدامات',short:'غرض عادي، ١٠ أفكار غير عادية',why:'تنشّط التفكير التباعدي، وهو أول ما يضعف مع الروتين.',color:'yellow',icon:'spark',eng:'uses',data:USES,n:1,wn:1,time:90},
+ {id:'puzzle',name:'لغز نعم أو لا',short:'اسأل أقل عدد من الأسئلة لتصل للحل',why:'تدرّب على صياغة السؤال الصحيح بدل انتظار المعلومة جاهزة.',color:'green',icon:'help',eng:'puzzle',data:PUZ,n:1,wn:1}
+];
+const G=id=>GAMES.find(g=>g.id===id);
+const ENG={mcq:runMCQ,order:runOrder,spot:runSpot,whys:runWhys,uses:runUses,puzzle:runPuzzle};
+function start(g,wk){ENG[g.eng](g,!!wk);}
+GAMES.forEach(g=>{g.run=()=>start(g,false);});
+
+/* ================= الحالة الإضافية ================= */
+S=Object.assign({sk:{},items:{},days:{},dp:{}},S);
+const pd=s=>{const[y,m,d]=s.split('-').map(Number);return Date.UTC(y,m-1,d);};
+const daysBetween=(a,b)=>Math.round((pd(b)-pd(a))/864e5);
+const addDays=(k,n)=>{const[y,m,d]=k.split('-').map(Number);return dkey(new Date(y,m-1,d+n));};
+(function prune(){const t=today();Object.keys(S.days).forEach(k=>{if(daysBetween(k,t)>40)delete S.days[k];});Object.keys(S.dp).forEach(k=>{if(daysBetween(k,t)>40)delete S.dp[k];});})();
+const streakNow=()=>(S.last===today()||S.last===yesterday())?S.streak:0;
+const skOf=id=>S.sk[id]&&S.sk[id].n?S.sk[id]:null;
+function skLevel(id){const k=skOf(id);if(!k)return{name:'لم تُقيَّم',cls:'none',tm:1};if(k.r>=75)return{name:'متقدم',cls:'adv',tm:.8};if(k.r>=45)return{name:'متوسط',cls:'mid',tm:1};return{name:'تأسيسي',cls:'base',tm:1.25};}
+function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return (h>>>0)/4294967295;}
+
+/* اختيار الأسئلة بالتكرار الذكي: ما أخطأت فيه يعود بعد يوم، والجديد قبل المكرر */
+function pickItems(g,n){const t=today();
+ const pr=i=>{const it=S.items[g.id+':'+i];const j=Math.random()*10;if(!it)return 50+j;const age=daysBetween(it.last,t);if(age<1)return -100+j;if(it.miss)return 80+Math.min(age,10)*3+j;return Math.min(age,30)*2+j;};
+ return g.data.map((_,i)=>i).sort((a,b)=>pr(b)-pr(a)).slice(0,n).map(i=>Object.assign({_k:g.id+':'+i},g.data[i]));}
+
+/* خطة اليوم: أضعف مهارة أولاً، ثم ما لم يُقيَّم، ثم ما يحتاج تقوية أو أُهمل، ثم نقطة قوة للحفاظ عليها */
+function buildPlan(dk){
+ const assessed=GAMES.filter(g=>skOf(g.id)).sort((a,b)=>S.sk[a.id].r-S.sk[b.id].r);
+ const un=GAMES.filter(g=>!skOf(g.id)).sort((a,b)=>hash(dk+a.id)-hash(dk+b.id));
+ const plan=[],why={};const add=(g,w)=>{if(g&&plan.length<3&&!plan.includes(g.id)){plan.push(g.id);why[g.id]=w;}};
+ if(!assessed.length)un.forEach(g=>add(g,'قياس أوّلي لمستواك'));
+ if(assessed.length>=2)add(assessed[0],`أضعف مهاراتك حالياً (${ar(S.sk[assessed[0].id].r)})`);
+ un.forEach(g=>add(g,'مهارة لم تُقيَّم بعد'));
+ if(plan.length<3){
+  const rest=assessed.filter(g=>!plan.includes(g.id));const strongest=rest.length>1?rest[rest.length-1]:null;
+  const pool=rest.filter(g=>g!==strongest).map(g=>{const k=S.sk[g.id];const st=Math.max(0,daysBetween(k.last,dk));return{g,k,st,sc:(100-k.r)+Math.min(st,10)*4+hash(dk+g.id)*6};}).sort((a,b)=>b.sc-a.sc);
+  if(pool[0])add(pool[0].g,pool[0].st>=3?`لم تتدرب عليها منذ ${ar(pool[0].st)} أيام`:`تحتاج تقوية (${ar(pool[0].k.r)})`);
+  if(strongest)add(strongest,`نقطة قوتك (${ar(S.sk[strongest.id].r)}): حافظ عليها`);
+  pool.slice(1).forEach(x=>add(x.g,'للتنويع'));
+ }
+ return{plan,why,done:{}};}
+function todayPlan(){const t=today();if(!S.days[t]){S.days[t]=buildPlan(t);save();}return S.days[t];}
+const nextInPlan=d=>d.plan.find(id=>d.done[id]==null);
+
+/* ================= التنقل ================= */
+let T=null;
+const stopT=()=>{if(T){clearInterval(T);T=null;}};
+function view(){stopT();const m=$('#main');m.innerHTML='';window.scrollTo(0,0);return m;}
+function setTab(t){document.querySelectorAll('.tabbar button').forEach(b=>b.classList.toggle('on',b.dataset.tab===t));}
+(function(){const tb=document.querySelectorAll('.tabbar button');const lab={home:['home','اليوم'],games:['grid','الألعاب'],me:['chart','تحليلي']};
+ tb.forEach(b=>{const [i,l]=lab[b.dataset.tab];b.innerHTML=ic(i)+'<span>'+l+'</span>';b.onclick=()=>({home,games,me:analysis})[b.dataset.tab]();});})();
+function header(){const L=lvl(S.xp);const st=streakNow();$('#hdrChip').innerHTML=`<span class="dot"></span><span>${L.name}</span><span class="xpn">${ar(S.xp)} نقطة</span>${st>1?` <span class="streak">${ic('flame')}${ar(st)}</span>`:''}`;}
+function greet(){const h=new Date().getHours();return h<12?'صباح الخير':'مساء الخير';}
+function hijriToday(){try{return new Date().toLocaleDateString('ar-SA',{weekday:'long',day:'numeric',month:'long'});}catch(e){return '';}}
+
+/* ================= الرئيسية: تمرين اليوم ================= */
+function gcard(g){const b=el('button','gcard');b.style.setProperty('--c',`var(--${g.color})`);const lv=skLevel(g.id);
+ b.innerHTML=`<span class="gicon">${ic(g.icon)}</span><b>${g.name}</b><small>يدرّب: ${SK[g.id].n}</small><span class="lvpill ${lv.cls}">${lv.name}${skOf(g.id)?` (${ar(S.sk[g.id].r)})`:''}</span>`;
+ b.onclick=g.run;return b;}
+
+function levelCard(){const L=lvl(S.xp);const c=el('div','card level');
+ c.innerHTML=`<div class="lv-head"><span class="lv-name">${L.name}</span><span class="lv-xp">${L.next?`${ar(L.next.x-S.xp)} نقطة إلى ${L.next.n}`:'وصلت لأعلى مستوى'}</span></div>
+ <div class="bar-wrap"><div class="bar-fill" style="width:0%"></div></div>
+ <div class="lv-steps">${LEVELS.map((l,k)=>`<span class="${k<=L.i?'on':''}">${l.n}</span>`).join('')}</div>`;
+ requestAnimationFrame(()=>requestAnimationFrame(()=>{c.querySelector('.bar-fill').style.width=Math.max(4,L.pct*100)+'%';}));return c;}
+
+function workoutCard(){const d=todayPlan();const doneN=d.plan.filter(id=>d.done[id]!=null).length;const nx=nextInPlan(d);
+ const c=el('div','card wk'+(d.complete?' complete':''));
+ c.innerHTML=`<div class="wk-head"><span class="tag">${ic(d.complete?'check':'dumbbell')} تمرين اليوم</span><small class="muted">${hijriToday()}</small></div>
+ <h3>${d.complete?'أنجزت تمرين اليوم':doneN?`باقي ${ar(3-doneN)} من ٣ تمارين`:'٣ تمارين مختارة لك اليوم'}</h3>
+ <p class="muted wk-sub">${d.complete?'خطة الغد جاهزة ومبنية على نتائجك اليوم.':'اخترناها حسب نقاط قوتك وضعفك. حوالي ٧ دقائق.'}</p>
+ <div class="bar-wrap"><div class="bar-fill" style="width:${Math.max(3,doneN/3*100)}%"></div></div>`;
+ const steps=el('div','steps');
+ d.plan.forEach((id,k)=>{const g=G(id);const dn=d.done[id]!=null;const b=el('button','step'+(dn?' done':'')+(id===nx?' next':''));b.style.setProperty('--c',`var(--${g.color})`);
+  b.innerHTML=`<span class="sn">${dn?ic('check'):ar(k+1)}</span><span class="gicon">${ic(g.icon)}</span><span class="st"><b>${g.name}</b><small>${d.why[id]}</small></span>${dn?`<span class="sp">${ar(d.done[id])}٪</span>`:''}`;
+  b.onclick=()=>start(g,true);steps.append(b);});
+ c.append(steps);
+ const btn=el('button','btn '+(d.complete?'ghost':'primary')+' block');
+ if(d.complete){btn.innerHTML=ic('chart')+' ملخص اليوم وخطة الغد';btn.onclick=daySummary;}
+ else{btn.textContent=doneN?`تابع: ${G(nx).name}`:'ابدأ تمرين اليوم';btn.onclick=()=>start(G(nx),true);}
+ c.append(btn);return c;}
+
+function quickInsight(){const a=GAMES.filter(g=>skOf(g.id)).sort((x,y)=>S.sk[y.id].r-S.sk[x.id].r);if(a.length<3)return null;
+ const s=a[0],w=a[a.length-1];const c=el('div','card qi');
+ c.innerHTML=`<div class="qi-row"><span class="flag good">${ic('up')} أقوى مهارة</span><b>${SK[s.id].n}</b><span class="v">${ar(S.sk[s.id].r)}</span></div>
+ <div class="qi-row"><span class="flag weak">${ic('target')} تحتاج تقوية</span><b>${SK[w.id].n}</b><span class="v">${ar(S.sk[w.id].r)}</span></div>`;
+ const b=el('button','btn ghost block',ic('chart')+' التحليل الكامل');b.onclick=analysis;c.append(b);return c;}
+
+function home(){setTab('home');header();const m=view();
+ const top=el('div','home-top');
+ const hero=el('section','',`<p class="eyebrow">${greet()}</p><h1>كل يوم تمرين جديد يناسب مستواك</h1><p class="lead">تمارين قصيرة من مواقف بيئة العمل. شعلة يقيس ٨ مهارات ذهنية، يكتشف نقاط قوتك وضعفك، ويختار تمرين الغد بناءً عليها.</p>`);
+ const side=el('div','home-side');side.append(workoutCard());
+ const qi=quickInsight();
+ top.append(hero,side);m.append(top);
+ const below=el('div','home-top');below.style.marginTop='16px';below.append(levelCard());if(qi)below.append(qi);m.append(below);
+ m.append(el('h2','','تدريب حر'));
+ const grid=el('div','ggrid');GAMES.forEach(g=>grid.append(gcard(g)));m.append(grid);
+ const mc=el('button','card meet-card');mc.style.setProperty('--c','var(--teal)');
+ mc.innerHTML=`<span class="gicon">${ic('users')}</span><div><b>تحدي الاجتماع</b><small>سيناريو مفاجئ للفريق كله، مع محامي شيطان يُختار عشوائياً</small></div>${ic('back').replace('class="i"','class="i" style="transform:scaleX(-1)"')}`;
+ mc.onclick=meeting;m.append(mc);}
+
+/* ================= قائمة الألعاب ================= */
+function games(){setTab('games');header();const m=view();
+ m.append(el('section','',`<p class="eyebrow">الألعاب</p><h1>كل لعبة تدرّب مهارة مختلفة</h1><p class="lead">التدريب الحر يُحتسب في تحليلك أيضاً. والوقت يتكيّف مع مستواك: كلما تقدمت قلّ الوقت المتاح.</p>`));
+ const list=el('div','glist');list.style.marginTop='20px';
+ GAMES.forEach(g=>{const b=el('button','card gitem');b.style.setProperty('--c',`var(--${g.color})`);const lv=skLevel(g.id);
+  b.innerHTML=`<span class="gicon">${ic(g.icon)}</span><div class="txt"><b>${g.name}</b><p class="s">${g.short}</p><p class="why">${g.why}</p><div class="meta"><span class="tag">${ic('target')} ${SK[g.id].n}</span><span class="lvpill ${lv.cls}">${lv.name}${skOf(g.id)?` (${ar(S.sk[g.id].r)})`:''}</span></div></div>`;
+  b.onclick=g.run;list.append(b);});
+ const mb=el('button','card gitem');mb.style.setProperty('--c','var(--teal)');
+ mb.innerHTML=`<span class="gicon">${ic('users')}</span><div class="txt"><b>تحدي الاجتماع</b><p class="s">نشاط جماعي لبداية أي اجتماع</p><p class="why">سيناريو مفاجئ للنقاش، وشخص مهمته الوحيدة الاعتراض: "لو فشلت طريقتنا المعتادة غداً، ماذا سنفعل؟"</p><div class="meta"><span class="tag">${ic('clock')} ٣ إلى ١٠ دقائق</span></div></div>`;
+ mb.onclick=meeting;list.append(mb);m.append(list);}
+
+/* ================= إطار اللعب ================= */
+function newSess(g,total,wk){return{g,score:0,correct:0,total,res:[],wk};}
+const gTime=g=>Math.round(g.time*skLevel(g.id).tm);
+
+function shell(g,s){setTab(s.wk?'home':'games');const m=view();const wrap=el('div','narrow');m.append(wrap);
+ const lv=skLevel(g.id);let wkTag='';
+ if(s.wk){const d=todayPlan();wkTag=`<span class="x2">تمرين اليوم ${ar(d.plan.indexOf(g.id)+1)}/٣</span>`;}
+ const top=el('div','gtop');
+ top.innerHTML=`<button class="iconbtn" aria-label="رجوع">${ic('back')}</button><div class="gtitle"><span class="gicon" style="--c:var(--${g.color})">${ic(g.icon)}</span><div><b>${g.name}</b><div class="gsub">${wkTag}<span class="lvpill ${lv.cls}">${lv.name}</span></div></div></div><div class="score"><small>النقاط</small><b>٠</b></div>`;
+ top.querySelector('button').onclick=()=>{stopT();s.wk?home():games();};
+ const prog=el('div','prog');for(let k=0;k<s.total;k++)prog.append(el('i'));
+ const tw=el('div','timer',`<span class="tpill">${ic('clock')}<span class="secs"></span><small>ث</small></span><div class="track"><div class="bar"></div></div>`);tw.style.visibility='hidden';
+ const body=el('div','');
+ wrap.append(top,prog,tw,body);
+ return{body,
+  prog:i=>[...prog.children].forEach((d,k)=>d.className=k<i?'done':k===i?'now':''),
+  score:v=>{top.querySelector('.score b').textContent=ar(Math.round(v));},
+  timer:(sec,end)=>timer(sec,tw,end),
+  hideTimer:()=>{tw.style.display='none';}};}
+
+function timer(sec,wrap,end){stopT();wrap.style.visibility='visible';const bar=wrap.querySelector('.bar'),tx=wrap.querySelector('.secs');const t0=Date.now();let left=sec;
+ const tick=()=>{left=Math.max(0,sec-(Date.now()-t0)/1000);bar.style.transform=`scaleX(${left/sec})`;wrap.classList.toggle('low',left/sec<.25);tx.textContent=ar(Math.ceil(left));if(left<=0){stopT();end();}};
+ tick();T=setInterval(tick,200);return()=>left;}
+
+function nextBtn(last,fn){const b=el('button','btn primary block',last?'عرض النتيجة':'التالي');b.onclick=fn;return b;}
+function scrollTo(e){setTimeout(()=>{try{e.scrollIntoView({behavior:'smooth',block:'nearest'})}catch(x){}},60);}
+
+/* ===== محرك: اختيار من متعدد ===== */
+function runMCQ(g,wk){const items=pickItems(g,wk?g.wn:g.n);const s=newSess(g,items.length,wk);const time=gTime(g);let i=0;const sh=shell(g,s);
+ function q(){if(i>=items.length)return finish(s);const it=items[i];sh.prog(i);sh.body.innerHTML='';
+  sh.body.append(el('div','qcard',`${it.label?`<span class="tag">${it.label}</span>`:''}<p class="qtext">${it.t}</p>${it.sub?`<p class="constraint">${ic('lock')}<span>${it.sub}</span></p>`:''}`));
+  sh.body.append(el('p','ask',g.prompt));
+  const opts=shuffle(it.o.map((t,k)=>({t,ok:k===0})));const list=el('div','opts');let answered=false;
+  opts.forEach((o,k)=>{const b=el('button','opt');b.textContent=o.t;b.style.animationDelay=(k*60)+'ms';o.b=b;b.onclick=()=>answer(o);list.append(b);});
+  sh.body.append(list);
+  const left=sh.timer(time,()=>answer(null));
+  function answer(o){if(answered)return;answered=true;stopT();const rem=left();const good=!!(o&&o.ok);
+   s.res.push({k:it._k,ok:good,p:good?70+30*rem/time:0,tf:1-rem/time,timed:1});
+   opts.forEach(x=>{x.b.disabled=true;if(x.ok)x.b.classList.add('ok');});
+   if(good){s.score+=100+Math.ceil(rem)*3;s.correct++;fx('ok');}else{if(o)o.b.classList.add('bad');fx('bad');}
+   sh.score(s.score);
+   const fb=el('div','feedback '+(good?'good':'miss'),`<strong>${good?'إجابة قوية':(o?'ليست الأقوى':'انتهى الوقت')}</strong><p>${it.w}</p>`);
+   fb.append(nextBtn(i===items.length-1,()=>{i++;q();}));sh.body.append(fb);scrollTo(fb);}
+ }
+ q();}
+
+/* ===== محرك: الترتيب (طوارئ) ===== */
+function runOrder(g,wk){const items=pickItems(g,wk?g.wn:g.n);const s=newSess(g,items.length,wk);const time=gTime(g);let i=0;const sh=shell(g,s);
+ function q(){if(i>=items.length)return finish(s);const it=items[i];sh.prog(i);sh.body.innerHTML='';
+  sh.body.append(el('div','qcard',`<span class="tag">${ic('zap')} أزمة الآن</span><p class="qtext">${it.t}</p>`));
+  sh.body.append(el('p','ask','اضغط على أول ٣ خطوات بالترتيب: ١ ثم ٢ ثم ٣. اضغط مرة ثانية للإلغاء.'));
+  const opts=shuffle(it.o.map((t,k)=>({t,k})));const chosen=[];let done=false;const list=el('div','opts');
+  const confirm=el('button','btn primary block','اعتمد الخطة');confirm.disabled=true;
+  opts.forEach((o,k)=>{const b=el('button','opt order','<span class="num"></span><span class="t"></span>');b.querySelector('.t').textContent=o.t;b.style.animationDelay=(k*60)+'ms';o.b=b;
+   b.onclick=()=>{if(done)return;const p=chosen.indexOf(o);if(p>-1)chosen.splice(p,1);else if(chosen.length<3)chosen.push(o);paint();fx('ok');};list.append(b);});
+  function paint(){opts.forEach(o=>{const p=chosen.indexOf(o);o.b.classList.toggle('sel',p>-1);o.b.querySelector('.num').textContent=p>-1?ar(p+1):'';});confirm.disabled=chosen.length<3;}
+  sh.body.append(list,confirm);
+  const left=sh.timer(time,submit);confirm.onclick=submit;
+  function submit(){if(done)return;done=true;stopT();const rem=left();let exact=0,part=0;
+   chosen.forEach((o,p)=>{if(o.k===p)exact++;else if(o.k<3)part++;});
+   const full=chosen.length===3;
+   s.res.push({k:it._k,ok:exact===3,p:(exact*30+part*10)/90*85+(full?15*rem/time:0),tf:1-rem/time,timed:1});
+   s.score+=exact*40+part*15+(full?Math.ceil(rem):0);if(exact===3)s.correct++;sh.score(s.score);fx(exact===3?'ok':'bad');
+   opts.forEach(o=>{o.b.disabled=true;o.b.classList.remove('sel');const n=o.b.querySelector('.num');
+    if(o.k<3){o.b.classList.add('ok');n.textContent=ar(o.k+1);}else if(chosen.includes(o)){o.b.classList.add('bad');n.textContent='✕';}else n.textContent='';});
+   confirm.remove();
+   const head=!full?'انتهى الوقت قبل اكتمال الخطة':exact===3?'ترتيب مثالي':`${ar(exact)} من ٣ في مكانها الصحيح`;
+   const fb=el('div','feedback '+(exact===3?'good':'miss'),`<strong>${head}</strong><p>${it.w}</p>`);
+   fb.append(nextBtn(i===items.length-1,()=>{i++;q();}));sh.body.append(fb);scrollTo(fb);}
+ }
+ q();}
+
+/* ===== محرك: الخلل الخفي ===== */
+function runSpot(g,wk){const items=pickItems(g,wk?g.wn:g.n);const s=newSess(g,items.length,wk);const time=gTime(g);let i=0;const sh=shell(g,s);
+ function q(){if(i>=items.length)return finish(s);const it=items[i];sh.prog(i);sh.body.innerHTML='';let done=false;
+  const need=it.l.filter(x=>x.e).length;
+  sh.body.append(el('p','ask',`في هذا المستند ${ar(need)} أخطاء منطقية. اضغط على الأسطر الخاطئة ثم اضغط زر التحقق.`));
+  const doc=el('div','doc');doc.append(el('div','doc-h',`${ic('file')}<b>${it.title}</b>`));
+  const lines=it.l.map(x=>{const b=el('button','line');b.textContent=x.t;b.onclick=()=>{if(done)return;b.classList.toggle('sel');count();fx('ok');};doc.append(b);return{x,b};});
+  const cnt=el('p','counter');
+  function count(){cnt.textContent=`اخترت ${ar(lines.filter(l=>l.b.classList.contains('sel')).length)} من ${ar(need)}`;}
+  count();
+  const btn=el('button','btn primary block','تحقّق');
+  sh.body.append(doc,cnt,btn);
+  const left=sh.timer(time,submit);btn.onclick=submit;
+  function submit(){if(done)return;done=true;stopT();const rem=left();let hit=0,wrong=0;
+   lines.forEach(({x,b})=>{const sel=b.classList.contains('sel');b.disabled=true;b.classList.remove('sel');
+    if(x.e&&sel){hit++;b.classList.add('ok');}else if(x.e)b.classList.add('miss');else if(sel){wrong++;b.classList.add('bad');}
+    if(x.e){const w=el('span','why');w.textContent=x.e;b.append(w);}});
+   const ok=hit===need&&!wrong;
+   s.res.push({k:it._k,ok,p:Math.max(0,hit/need*85-wrong*12)+(hit?15*rem/time:0),tf:1-rem/time,timed:1});
+   s.score+=Math.max(0,hit*60-wrong*20+(hit?Math.ceil(rem):0));if(ok)s.correct++;sh.score(s.score);fx(hit===need?'ok':'bad');
+   btn.remove();cnt.remove();
+   const head=`اكتشفت ${ar(hit)} من ${ar(need)}`+(wrong?`، و${ar(wrong)} اختيار لسطر سليم`:'');
+   const fb=el('div','feedback '+(ok?'good':'miss'),`<strong>${head}</strong><p>${it.w}</p>`);
+   fb.append(nextBtn(i===items.length-1,()=>{i++;q();}));sh.body.append(fb);scrollTo(fb);}
+ }
+ q();}
+
+/* ===== محرك: لماذا الخمسة ===== */
+function runWhys(g,wk){const it=pickItems(g,1)[0];const s=newSess(g,it.s.length,wk);const sh=shell(g,s);let i=0,miss=0;const tfs=[];
+ const time=Math.round(30*skLevel(g.id).tm);
+ sh.body.append(el('div','qcard',`<span class="tag">المشكلة</span><p class="qtext">${it.p}</p>`));
+ sh.body.append(el('p','ask',`لكل مستوى ${ar(time)} ثانية. إذا انتهى الوقت نكشف لك السبب الأعمق وننتقل.`));
+ const chain=el('div','chain');const stage=el('div','');sh.body.append(chain,stage);
+ const HINT=['','هذا لوم لشخص وليس سبباً. اللوم يوقف التفكير قبل الوصول للجذر.','هذا إعادة وصف للمشكلة بكلمات أخرى، ولم يقرّبك من السبب.'];
+ function addLink(t){const ln=el('div','link'+(i===it.s.length-1?' root':''),`<span class="lv">${ar(i+1)}</span><p></p>`);ln.querySelector('p').textContent=t;chain.append(ln);}
+ function step(){sh.prog(i);stage.innerHTML='';if(i>=it.s.length)return end();
+  let tried=false,locked=false;
+  stage.append(el('p','ask',`لماذا حدث ذلك؟ (${ar(i+1)} من ${ar(it.s.length)})`));
+  const opts=shuffle(it.s[i].map((t,k)=>({t,k})));const list=el('div','opts');
+  const left=sh.timer(time,timeout);
+  opts.forEach((o,k)=>{const b=el('button','opt');b.textContent=o.t;b.style.animationDelay=(k*60)+'ms';o.b=b;
+   b.onclick=()=>{if(locked)return;
+    if(o.k===0){locked=true;stopT();const rem=left();tfs.push(1-rem/time);fx('ok');s.score+=(tried?30:60)+Math.ceil(rem);if(!tried)s.correct++;sh.score(s.score);addLink(o.t);i++;step();}
+    else{fx('bad');if(!tried)miss++;tried=true;s.score=Math.max(0,s.score-15);sh.score(s.score);b.disabled=true;b.classList.add('bad');b.after(el('p','hint',HINT[o.k]));}};
+   list.append(b);});
+  stage.append(list);scrollTo(stage);
+  function timeout(){if(locked)return;locked=true;if(!tried)miss++;tfs.push(1);fx('bad');
+   opts.forEach(o=>{o.b.disabled=true;if(o.k===0)o.b.classList.add('ok');});
+   const n=el('p','hint','انتهى الوقت. هذا هو السبب الأعمق، ننتقل للمستوى التالي.');list.after(n);
+   setTimeout(()=>{addLink(opts.find(o=>o.k===0).t);i++;step();},1600);}
+ }
+ function end(){stopT();const tf=tfs.length?tfs.reduce((a,b)=>a+b,0)/tfs.length:1;
+  s.res.push({k:it._k,ok:miss===0,p:s.correct/s.total*85+(1-tf)*15,tf,timed:1});
+  const fb=el('div','feedback good',`<strong>وصلت إلى الجذر</strong><p>${it.r}</p>`);fb.append(nextBtn(true,()=>finish(s)));stage.append(fb);scrollTo(fb);}
+ step();}
+
+/* ===== محرك: الاستخدامات البديلة ===== */
+function runUses(g,wk){const obj=pickItems(g,1)[0];const s=newSess(g,1,wk);const sh=shell(g,s);let ideas=[];let done=false;
+ sh.body.append(el('div','qcard center',`<span class="tag">التفكير التباعدي</span><p class="big">${obj.n}</p><p class="muted" style="margin:0">${obj.h}</p>`));
+ sh.body.append(el('p','ask','اكتب أكبر عدد من الاستخدامات غير المعتادة. الهدف ١٠ أفكار، ولا توجد إجابة خاطئة.'));
+ const form=el('form','ideaform','<input type="text" placeholder="فكرة جديدة..." maxlength="80" autocomplete="off" enterkeyhint="send" aria-label="فكرة جديدة"><button class="btn primary" type="submit">أضف</button>');
+ const input=form.querySelector('input');
+ const meter=el('div','meter');for(let k=0;k<10;k++)meter.append(el('i'));
+ const chips=el('div','chips');
+ const fin=el('button','btn ghost block','أنهيت');fin.onclick=end;
+ function bad(){input.classList.remove('shake');void input.offsetWidth;input.classList.add('shake');fx('bad');}
+ form.onsubmit=e=>{e.preventDefault();if(done)return;const v=input.value.trim().replace(/\s+/g,' ');
+  if(v.length<3)return bad();if(ideas.includes(v)){toast('هذه الفكرة مكتوبة مسبقاً');return bad();}
+  ideas.push(v);const c=el('span','chip-i');c.textContent=v;chips.prepend(c);
+  [...meter.children].forEach((d,k)=>{d.className=k<ideas.length?(ideas.length>=10?'over':'on'):'';});
+  s.score=ideas.length*15+(ideas.length>=10?50:0);sh.score(s.score);fx('ok');
+  if(ideas.length===10)toast('عشر أفكار! أي فكرة إضافية مكسب');
+  input.value='';input.focus();};
+ sh.body.append(form,meter,chips,fin);
+ sh.timer(g.time,end);
+ function end(){if(done)return;done=true;stopT();s.correct=ideas.length>=10?1:0;s.res.push({k:obj._k,ok:true,p:Math.min(100,ideas.length*10),timed:0});finish(s,{extra:`${ar(ideas.length)} فكرة`});}
+ setTimeout(()=>{try{input.focus()}catch(e){}},300);}
+
+/* ===== محرك: لغز نعم أو لا ===== */
+function runPuzzle(g,wk){const it=pickItems(g,1)[0];const s=newSess(g,1,wk);const sh=shell(g,s);let asked=0,done=false,rem1=0;
+ const time=Math.round(120*skLevel(g.id).tm),time2=20;
+ const pot=()=>Math.max(40,160-asked*15);
+ sh.body.append(el('div','qcard',`<span class="tag">اللغز</span><p class="qtext">${it.p}</p>`));
+ sh.body.append(el('p','ask',`اسأل أسئلة إجابتها نعم أو لا، ثم اختر الحل. أمامك ${ar(Math.round(time/60*10)/10)} دقيقة، وكل سؤال يخصم من نقاطك.`));
+ const qs=el('div','qs');
+ it.q.forEach(([t,a])=>{const b=el('button','qbtn','<span class="t"></span><b class="ans"></b>');b.querySelector('.t').textContent=t;
+  b.onclick=()=>{if(done||b.classList.contains('open'))return;asked++;b.classList.add('open',a==='نعم'?'yes':a==='لا'?'no':'na');b.querySelector('.ans').textContent=a;cnt();fx('ok');};qs.append(b);});
+ const counter=el('p','counter');function cnt(){counter.textContent=`أسئلة مستخدمة: ${ar(asked)}، النقاط الممكنة الآن: ${ar(pot())}`;}cnt();
+ const solve=el('button','btn primary block','أعرف الحل');
+ sh.body.append(qs,counter,solve);
+ const left1=sh.timer(time,()=>{toast('انتهى وقت الأسئلة، اختر الحل الآن');openSolve();});
+ solve.onclick=openSolve;
+ function openSolve(){if(done)return;done=true;rem1=left1();stopT();solve.remove();qs.querySelectorAll('button').forEach(b=>b.disabled=true);
+  const ask=el('p','ask',`ما التفسير الأقرب؟ لديك ${ar(time2)} ثانية.`);const list=el('div','opts');sh.body.append(ask,list);
+  const opts=shuffle(it.o.map((t,k)=>({t,ok:k===0})));let answered=false;
+  const left2=sh.timer(time2,()=>answer(null));
+  opts.forEach((o,k)=>{const b=el('button','opt');b.textContent=o.t;b.style.animationDelay=(k*60)+'ms';o.b=b;b.onclick=()=>answer(o);list.append(b);});
+  function answer(o){if(answered)return;answered=true;stopT();const good=!!(o&&o.ok);
+   opts.forEach(x=>{x.b.disabled=true;if(x.ok)x.b.classList.add('ok');});
+   if(good){s.score=pot()+Math.ceil(rem1);s.correct=1;fx('ok');}else{if(o)o.b.classList.add('bad');s.score=0;fx('bad');}sh.score(s.score);
+   s.res.push({k:it._k,ok:good,p:good?Math.max(40,92-asked*8)+8*rem1/time:10,tf:1-rem1/time,timed:1});
+   const fb=el('div','feedback '+(good?'good':'miss'),`<strong>${good?`حللتها بـ ${ar(asked)} ${asked===1?'سؤال':'أسئلة'}`:(o?'ليس هذا التفسير':'انتهى الوقت')}</strong><p>${it.w}</p>`);
+   fb.append(nextBtn(true,()=>finish(s)));sh.body.append(fb);scrollTo(fb);}
+  scrollTo(ask);}}
+
+/* ================= تحدي الاجتماع ================= */
+function meetTop(back){const top=el('div','gtop');top.innerHTML=`<button class="iconbtn" aria-label="رجوع">${ic('back')}</button><div class="gtitle"><span class="gicon" style="--c:var(--teal)">${ic('users')}</span><div><b>تحدي الاجتماع</b></div></div>`;top.querySelector('button').onclick=back;return top;}
+function meeting(){setTab('games');header();const m=view();const w=el('div','narrow');m.append(w);
+ w.append(meetTop(games));
+ w.append(el('div','qcard',`<span class="tag">لقائد الفريق</span><p class="qtext">اعرض هذه الشاشة في بداية الاجتماع. سنختار سيناريو مفاجئاً، ونعيّن شخصاً واحداً يلعب دور محامي الشيطان: مهمته الوحيدة الاعتراض وطرح البديل.</p>`));
+ w.append(el('label','lbl','أسماء الحضور (اختياري)'));
+ const ta=el('textarea','field');ta.rows=4;ta.placeholder='اسم في كل سطر، أو مفصولة بفاصلة';try{ta.value=localStorage.getItem(KEY+'_names')||'';}catch(e){}
+ w.append(ta,el('label','lbl','مدة النقاش'));
+ let mins=5;const seg=el('div','seg','<button data-m="3">٣ دقائق</button><button data-m="5" class="on">٥ دقائق</button><button data-m="10">١٠ دقائق</button>');
+ seg.onclick=e=>{const b=e.target.closest('button');if(!b)return;mins=+b.dataset.m;[...seg.children].forEach(x=>x.classList.toggle('on',x===b));};
+ const go=el('button','btn primary block','ابدأ التحدي');
+ go.onclick=()=>{const names=ta.value.split(/[\n،,]+/).map(x=>x.trim()).filter(Boolean);try{localStorage.setItem(KEY+'_names',ta.value)}catch(e){}live(names,mins);};
+ w.append(seg,go);}
+function live(names,mins){const m=view();const w=el('div','narrow');m.append(w);
+ w.append(meetTop(meeting));
+ const pool=[...DRILL.map(x=>({tag:'أزمة مفاجئة',t:x.t})),...DEVIL.map(x=>({tag:'قرار مقترح',t:x.t}))];
+ const sc=pick(pool,1)[0];
+ if(names.length){const dv=el('div','devil',`<span class="gicon">${ic('msg')}</span><div><small>محامي الشيطان لهذا الاجتماع</small><b></b></div>`);dv.querySelector('b').textContent=pick(names,1)[0];w.append(dv);}
+ w.append(el('div','qcard',`<span class="tag">${sc.tag}</span><p class="qtext">${sc.t}</p>`));
+ const ul=el('ul','prompts');
+ ['ما أول ثلاث خطوات نتخذها؟','لو فشلت طريقتنا المعتادة تماماً غداً، ما البديل؟','ما المعلومة التي لا نملكها الآن ونحتاجها؟'].forEach(t=>{const li=el('li');li.textContent=t;ul.append(li);});
+ const clock=el('div','clock');w.append(clock,ul);
+ const row=el('div','row');const again=el('button','btn ghost',ic('refresh')+' سيناريو آخر');again.onclick=()=>live(names,mins);
+ const end=el('button','btn primary','إنهاء');end.onclick=()=>{stopT();award();meeting();};
+ again.style.flex=end.style.flex='1';row.append(again,end);w.append(row);
+ let awarded=false;function award(){if(awarded)return;awarded=true;S.xp+=30;S.plays.meet=(S.plays.meet||0)+1;save();header();toast('+٣٠ نقطة خبرة للفريق');}
+ const t0=Date.now(),total=mins*60;
+ const tick=()=>{const left=Math.max(0,total-(Date.now()-t0)/1000);const mm=Math.floor(left/60),ss=Math.floor(left%60);
+  clock.textContent=ar(mm)+':'+(ss<10?'٠':'')+ar(ss);clock.classList.toggle('low',left<30);
+  if(left<=0){stopT();clock.textContent='انتهى الوقت';fx('bad');award();const fb=el('div','feedback good','<strong>من يلخّص قرار الفريق في جملة واحدة؟</strong><p>ثم اسأل محامي الشيطان: هل بقي اعتراض لم يُجب عليه؟</p>');row.before(fb);}};
+ tick();T=setInterval(tick,250);}
+
+/* ================= النتيجة وتحديث المهارات ================= */
+const BADGES=[
+ {id:'first',n:'أول شرارة',d:'أكملت أول تمرين',ic:'flame'},
+ {id:'perfect',n:'دقة كاملة',d:'كل الإجابات صحيحة في تمرين',ic:'check'},
+ {id:'workout',n:'يوم كامل',d:'أنهيت تمرين يوم كامل',ic:'dumbbell'},
+ {id:'streak',n:'متّقد',d:'٣ أيام تمرين متتالية',ic:'zap'},
+ {id:'week',n:'أسبوع ناري',d:'٧ أيام تمرين متتالية',ic:'trend'},
+ {id:'all',n:'مستكشف',d:'قِست كل المهارات الثماني',ic:'grid'}
+];
+function checkBadges(s,dayDone){const got=[];const add=id=>{if(!S.badges.includes(id)){S.badges.push(id);got.push(id);}};
+ add('first');if(s.total&&s.correct===s.total)add('perfect');if(dayDone)add('workout');if(streakNow()>=3)add('streak');if(streakNow()>=7)add('week');if(GAMES.every(g=>skOf(g.id)))add('all');return got;}
+function badgeEl(b,on){return el('div','badge'+(on?' on':''),`<div class="bi">${ic(b.ic)}</div><b>${b.n}</b><small>${b.d}</small>`);}
+
+function recordSkill(g,s){const t=today();
+ const p=s.res.length?Math.round(s.res.reduce((a,r)=>a+r.p,0)/s.res.length):0;
+ s.res.forEach(r=>{if(!r.k)return;const it=S.items[r.k]||{seen:0};it.seen++;it.last=t;it.miss=!r.ok;S.items[r.k]=it;});
+ const k=S.sk[g.id]||{r:0,n:0,hist:[],acc:null,tf:null};const before=k.n?k.r:null;
+ k.r=k.n?Math.round(k.r*.6+p*.4):p;k.n++;k.last=t;k.hist.push({d:t,p});if(k.hist.length>30)k.hist.shift();
+ const timed=s.res.filter(r=>r.timed);
+ if(timed.length){const acc=timed.filter(r=>r.ok).length/timed.length,tf=timed.reduce((a,r)=>a+r.tf,0)/timed.length;k.acc=k.acc==null?acc:k.acc*.6+acc*.4;k.tf=k.tf==null?tf:k.tf*.6+tf*.4;}
+ S.sk[g.id]=k;const dp=S.dp[t]||{s:0,n:0};dp.s+=p;dp.n++;S.dp[t]=dp;
+ return{p,before,after:k.r};}
+
+function finish(s,o={}){stopT();const g=s.g,t=today();
+ const R=recordSkill(g,s);
+ let xp=Math.round(s.score/10);let dayDone=false;
+ if(s.wk){const d=todayPlan();d.done[g.id]=R.p;
+  if(!d.complete&&d.plan.every(id=>d.done[id]!=null)){d.complete=true;dayDone=true;xp+=50;if(S.last!==t){S.streak=S.last===yesterday()?S.streak+1:1;S.last=t;}}}
+ const before=lvl(S.xp).i;
+ S.xp+=xp;S.games++;S.plays[g.id]=(S.plays[g.id]||0)+1;
+ const prev=S.best[g.id]||0;const newBest=s.score>prev&&s.score>0;if(newBest)S.best[g.id]=Math.round(s.score);
+ const nb=checkBadges(s,dayDone);save();header();
+ const after=lvl(S.xp);
+ const m=view();const w=el('div','narrow result');m.append(w);
+ const C=2*Math.PI*70;
+ w.append(el('p','eyebrow',`${g.name}، ${SK[g.id].n}`));
+ const ring=el('div','ring',`<svg viewBox="0 0 160 160"><circle cx="80" cy="80" r="70" stroke="rgba(255,255,255,.1)" stroke-width="12" fill="none"/><circle class="arc" cx="80" cy="80" r="70" stroke="url(#rg)" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C}" style="transition:stroke-dashoffset 1.1s ease"/><defs><linearGradient id="rg"><stop offset="0" stop-color="#3DB672"/><stop offset=".5" stop-color="#F7C443"/><stop offset="1" stop-color="#F2922A"/></linearGradient></defs></svg><div class="val"><b>٠</b><small>٪ أداء</small></div>`);
+ w.append(ring);
+ const msg=R.p>=80?'أداء قوي. هذا بالضبط عكس الروتين.':R.p>=55?'أداء جيد، وفيه مساحة للتحسن.':'التمرين أدّى مهمته: كشف لك أين تحتاج تركيزاً.';
+ w.append(el('p','msg',msg));
+ const dl=el('div','delta');
+ if(R.before==null)dl.innerHTML=`${ic('target')}<span>أول قياس لمهارة <b>${SK[g.id].n}</b>: <b>${ar(R.after)}</b> من ١٠٠</span>`;
+ else{const df=R.after-R.before;dl.innerHTML=`${ic(df>=0?'trend':'target')}<span><b>${SK[g.id].n}</b>: ${ar(R.before)} ← <b>${ar(R.after)}</b> <span class="${df>0?'upc':df<0?'downc':''}">${df>0?'+'+ar(df):df<0?'−'+ar(-df):'بدون تغيير'}</span></span>`;}
+ w.append(dl);
+ w.append(el('div','stats',`<div class="stat"><b>+${ar(xp)}</b><small>خبرة${dayDone?' (+٥٠ لليوم)':''}</small></div><div class="stat"><b>${o.extra||`${ar(s.correct)}/${ar(s.total)}`}</b><small>${o.extra?'أفكارك':'إجابات ممتازة'}</small></div><div class="stat"><b>${ar(Math.round(s.score))}</b><small>${newBest?'رقم قياسي جديد':'نقاط'}</small></div>`));
+ if(R.p<60||R.p>=85){const tip=el('div','coach',`<span class="ci">${ic(R.p<60?'target':'up')}</span><div><b>${R.p<60?'نصيحة للتحسن':'استثمر قوتك'}</b><p>${R.p<60?SK[g.id].weak:SK[g.id].strong}</p></div>`);w.append(tip);}
+ if(after.i>before)w.append(el('div','lvlup',`ارتقيت إلى مستوى ${after.name}`));
+ if(nb.length){w.append(el('p','ask','إنجاز جديد'));const nbw=el('div','newbadges');nb.forEach(id=>nbw.append(badgeEl(BADGES.find(b=>b.id===id),true)));w.append(nbw);}
+ const row=el('div','row');row.style.marginTop='18px';
+ if(s.wk){const d=todayPlan();const nx=nextInPlan(d);
+  const a=el('button','btn primary');
+  if(nx){a.innerHTML=`التالي: ${G(nx).name}`;a.onclick=()=>start(G(nx),true);}else{a.innerHTML=ic('chart')+' ملخص اليوم وخطة الغد';a.onclick=daySummary;}
+  const b=el('button','btn ghost','الرئيسية');b.onclick=home;a.style.flex='2';b.style.flex='1';row.append(a,b);}
+ else{const again=el('button','btn primary',ic('refresh')+' مرة أخرى');again.onclick=g.run;const back=el('button','btn ghost','كل الألعاب');back.onclick=games;again.style.flex=back.style.flex='1';row.append(again,back);}
+ w.append(row);
+ const t1=Date.now();
+ requestAnimationFrame(()=>requestAnimationFrame(()=>{ring.querySelector('.arc').style.strokeDashoffset=C*(1-Math.max(.03,R.p/100));}));
+ T=setInterval(()=>{const q=Math.min(1,(Date.now()-t1)/900);ring.querySelector('.val b').textContent=ar(Math.round(R.p*(1-Math.pow(1-q,3))));if(q>=1)stopT();},30);
+ fx(R.p>=55?'ok':'bad');}
+
+/* ================= ملخص اليوم ================= */
+function planRows(p,showDone){const box=el('div','steps');
+ p.plan.forEach((id,k)=>{const g=G(id);const r=el('div','step static'+(showDone?' done':''));r.style.setProperty('--c',`var(--${g.color})`);
+  const v=showDone&&p.done[id]!=null?`<span class="sp">${ar(p.done[id])}٪</span>`:'';
+  r.innerHTML=`<span class="sn">${showDone?ic('check'):ar(k+1)}</span><span class="gicon">${ic(g.icon)}</span><span class="st"><b>${g.name}</b><small>${showDone?SK[id].n+(skOf(id)?`: ${ar(S.sk[id].r)}`:''):p.why[id]}</small></span>${v}`;box.append(r);});
+ return box;}
+function daySummary(){setTab('home');header();const m=view();const w=el('div','narrow');m.append(w);const d=todayPlan();const st=streakNow();
+ w.append(el('section','',`<p class="eyebrow">${hijriToday()}</p><h1>${d.complete?'أنجزت تمرين اليوم':'تمرين اليوم'}</h1><p class="lead">${st>1?`${ar(st)} أيام متتالية. استمر.`:'بداية سلسلة جديدة. ارجع غداً لتبنيها.'}</p>`));
+ const c1=el('div','card');c1.style.marginTop='16px';c1.append(el('h3','card-h','نتائج اليوم'));c1.append(planRows(d,true));
+ const res=d.plan.filter(id=>d.done[id]!=null).sort((a,b)=>d.done[b]-d.done[a]);
+ if(res.length>=2)c1.append(el('p','muted small',`أفضل أداء اليوم في <b>${SK[res[0]].n}</b>، وأقلّه في <b>${SK[res[res.length-1]].n}</b>.`));
+ w.append(c1);
+ const tm=buildPlan(addDays(today(),1));
+ const c2=el('div','card');c2.style.marginTop='14px';c2.append(el('h3','card-h',`${ic('target')} خطة الغد`));
+ c2.append(el('p','muted small','بُنيت على نتائجك حتى الآن. قد تتغير إذا تدربت أكثر اليوم.'));c2.append(planRows(tm,false));w.append(c2);
+ const row=el('div','row');row.style.marginTop='18px';
+ const a=el('button','btn primary',ic('chart')+' تحليلي الكامل');a.onclick=analysis;const b=el('button','btn ghost','الرئيسية');b.onclick=home;a.style.flex='2';b.style.flex='1';row.append(a,b);w.append(row);}
+
+/* ================= التحليل ================= */
+function trendChart(){const t=today();const days=[];for(let k=13;k>=0;k--){const dk=addDays(t,-k);const v=S.dp[dk];days.push({dk,v:v?Math.round(v.s/v.n):null,done:!!(S.days[dk]&&S.days[dk].complete)});}
+ const W=340,H=150,L=10,R=34,Tp=12,B=26,iw=W-L-R,ih=H-Tp-B;
+ const x=i=>W-R-(i/13)*iw; /* الزمن من اليمين لليسار، والمحور على اليمين */
+ const y=v=>Tp+ih-(v/100)*ih;
+ let path='',pen=false;days.forEach((d,i)=>{if(d.v==null){pen=false;return;}path+=(pen?'L':'M')+x(i).toFixed(1)+' '+y(d.v).toFixed(1)+' ';pen=true;});
+ const fmt=dk=>{const[yy,mm,dd]=dk.split('-').map(Number);try{return new Date(yy,mm-1,dd).toLocaleDateString('ar-SA-u-ca-gregory',{day:'numeric',month:'short'});}catch(e){return dk;}};
+ let svg=`<svg viewBox="0 0 ${W} ${H}" class="tchart" role="img" aria-label="متوسط الأداء اليومي لآخر ١٤ يوماً">`;
+ [0,50,100].forEach(v=>{svg+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" class="grid"/><text x="${W-R+6}" y="${y(v)+4}" class="ax" text-anchor="end">${ar(v)}</text>`;});
+ [[13,'end'],[6,'middle'],[0,'start']].forEach(([i,a])=>{svg+=`<text x="${x(i)}" y="${H-6}" class="ax" text-anchor="${a}">${fmt(days[i].dk)}</text>`;});
+ svg+=`<path d="${path}" class="ln"/>`;
+ days.forEach((d,i)=>{if(d.v!=null)svg+=`<circle cx="${x(i)}" cy="${y(d.v)}" r="4" class="pt"/>`;});
+ days.forEach((d,i)=>{svg+=`<rect x="${x(i)-iw/26}" y="${Tp}" width="${iw/13}" height="${ih}" class="hit" data-i="${i}"/>`;});
+ svg+=`<line class="cross" x1="0" x2="0" y1="${Tp}" y2="${Tp+ih}" style="display:none"/></svg>`;
+ const wrap=el('div','chartwrap');const ro=el('p','readout');wrap.append(ro);wrap.insertAdjacentHTML('beforeend',svg);
+ const cross=wrap.querySelector('.cross');
+ const show=i=>{const d=days[i];ro.innerHTML=`<b>${fmt(d.dk)}</b>: ${d.v==null?'لا تمرين':`${ar(d.v)}٪ متوسط الأداء`}${d.done?'، تمرين اليوم مكتمل':''}`;cross.setAttribute('x1',x(i));cross.setAttribute('x2',x(i));cross.style.display='';};
+ const lastI=[...days.keys()].reverse().find(i=>days[i].v!=null);
+ const reset=()=>{cross.style.display='none';ro.innerHTML=lastI!=null?`آخر نشاط: <b>${fmt(days[lastI].dk)}</b>، ${ar(days[lastI].v)}٪`:'ابدأ أول تمرين ليظهر منحنى تقدمك';};
+ wrap.querySelectorAll('.hit').forEach(r=>{r.addEventListener('pointerenter',()=>show(+r.dataset.i));r.addEventListener('click',()=>show(+r.dataset.i));});
+ wrap.querySelector('svg').addEventListener('pointerleave',reset);reset();
+ const dots=el('div','dots');days.forEach(d=>{const s=el('span',d.done?'on':d.v!=null?'part':'');s.title=fmt(d.dk);dots.append(s);});
+ wrap.append(el('p','dots-l','أيام التمرين المكتمل خلال ١٤ يوماً'),dots);
+ return wrap;}
+
+function styleInsight(){let n=0,acc=0,tf=0;GAMES.forEach(g=>{const k=skOf(g.id);if(k&&k.acc!=null){n++;acc+=k.acc;tf+=k.tf;}});
+ if(n<2)return null;acc/=n;tf/=n;
+ let t,d;
+ if(acc>=.7&&tf<.55){t='سريع ودقيق';d='تقرأ الموقف بسرعة وتصيب غالباً. تحدَّ نفسك بالمهارات الأضعف لأن الوقت المتاح سيقل كلما تقدمت.';}
+ else if(acc>=.7){t='متأنٍّ ودقيق';d='دقتك عالية لكنك تستهلك معظم الوقت. ثق بقراءتك الأولى أكثر، فهي غالباً صحيحة.';}
+ else if(tf<.55){t='سريع ومتسرّع';d='تجيب بسرعة لكن تفوتك تفاصيل. خذ ثانيتين لقراءة كل الخيارات قبل أن تختار.';}
+ else{t='في مرحلة البناء';d='الدقة والسرعة كلاهما يتحسنان بالتكرار اليومي. ركّز على فهم سبب كل إجابة صحيحة بعد التمرين.';}
+ const c=el('div','card coach');c.innerHTML=`<span class="ci">${ic('clock')}</span><div><b>نمط تفكيرك: ${t}</b><p>${d}</p><div class="mini"><span>الدقة <b>${ar(Math.round(acc*100))}٪</b></span><span>الوقت المستخدم <b>${ar(Math.round(tf*100))}٪</b></span></div></div>`;return c;}
+
+function analysis(){setTab('me');header();const m=view();
+ const assessed=GAMES.filter(g=>skOf(g.id));
+ const avg=assessed.length?Math.round(assessed.reduce((a,g)=>a+S.sk[g.id].r,0)/assessed.length):null;
+ const sessions=assessed.reduce((a,g)=>a+S.sk[g.id].n,0);
+ m.append(el('section','',`<p class="eyebrow">تحليلي</p><h1>نقاط قوتك وضعفك</h1><p class="lead">كل تمرين يحدّث تقييم مهارته، والتقييم يعطي وزناً أكبر لأدائك الأحدث.</p>`));
+ const top=el('div','home-top');top.style.marginTop='16px';
+ const hero=el('div','card heroN');
+ hero.innerHTML=avg==null?`<small>مؤشر الجاهزية الذهنية</small><b class="hn">—</b><p class="muted">أكمل أول تمرين ليبدأ التحليل.</p>`:`<small>مؤشر الجاهزية الذهنية</small><b class="hn">${ar(avg)}</b><p class="muted">متوسط ${ar(assessed.length)} من ٨ مهارات مُقيّمة، من ${ar(sessions)} جلسة تدريب.</p>`;
+ const st=el('div','stats',`<div class="stat"><b>${ar(streakNow())}</b><small>أيام متتالية</small></div><div class="stat"><b>${ar(Object.values(S.days).filter(d=>d.complete).length)}</b><small>أيام مكتملة</small></div><div class="stat"><b>${ar(S.xp)}</b><small>نقاط الخبرة</small></div>`);st.style.margin='0';
+ const hs=el('div','home-side');hs.append(st,levelCard());top.append(hero,hs);m.append(top);
+
+ /* المهارات */
+ m.append(el('h2','','المهارات الثماني'));
+ const sorted=[...GAMES].sort((a,b)=>{const ka=skOf(a.id),kb=skOf(b.id);if(!ka&&!kb)return 0;if(!ka)return 1;if(!kb)return -1;return kb.r-ka.r;});
+ const strong=assessed.length>=3?[...assessed].sort((a,b)=>S.sk[b.id].r-S.sk[a.id].r).slice(0,2).map(g=>g.id):[];
+ const weak=assessed.length>=3?[...assessed].sort((a,b)=>S.sk[a.id].r-S.sk[b.id].r).slice(0,2).map(g=>g.id):[];
+ const card=el('div','card skills');
+ sorted.forEach(g=>{const k=skOf(g.id);const lv=skLevel(g.id);const row=el('div','skrow');
+  let flag='';if(strong.includes(g.id))flag=`<span class="flag good">${ic('up')} قوة</span>`;else if(weak.includes(g.id))flag=`<span class="flag weak">${ic('target')} ضعف</span>`;
+  let trend='';if(k&&k.hist.length>=2){const h=k.hist;const df=h[h.length-1].p-h[h.length-2].p;trend=`<span class="tr ${df>0?'upc':df<0?'downc':''}">${df>0?'▲':df<0?'▼':''}</span>`;}
+  row.innerHTML=`<div class="skh"><span class="skn"><span class="sdot" style="background:var(--${g.color})"></span>${SK[g.id].n}</span>${flag}<span class="skv">${k?ar(k.r):'—'}${trend}</span></div>
+  <div class="skbar ${k?'':'empty'}"><i style="width:${k?Math.max(2,k.r):0}%"></i></div>
+  <div class="skm"><span>${SK[g.id].d}</span><span class="lvpill ${lv.cls}">${lv.name}</span></div>`;
+  row.title=k?`${SK[g.id].n}: ${k.r} من ١٠٠، ${k.n} جلسة`:'لم تُقيَّم بعد';
+  card.append(row);});
+ m.append(card);
+
+ /* نقاط القوة والضعف بالتفصيل */
+ if(assessed.length>=3){
+  const sw=el('div','home-top');sw.style.marginTop='14px';
+  const cs=el('div','card coach good');cs.innerHTML=`<span class="ci">${ic('up')}</span><div><b>نقاط قوتك: ${strong.map(id=>SK[id].n).join(' و')}</b><p>${SK[strong[0]].strong}</p></div>`;
+  const cw=el('div','card coach weak');cw.innerHTML=`<span class="ci">${ic('target')}</span><div><b>ركّز على: ${weak.map(id=>SK[id].n).join(' و')}</b><p>${SK[weak[0]].weak}</p><p class="muted small">تمرين الغد سيتضمن «${G(weak[0]).name}» تلقائياً.</p></div>`;
+  sw.append(cw,cs);m.append(sw);
+ }else{
+  m.append(el('div','card coach','<span class="ci">'+ic('target')+'</span><div><b>التحليل يكتمل بعد قياس ٣ مهارات</b><p>كل تمرين يومي يقيس مهارات جديدة حتى تكتمل الصورة خلال ٣ إلى ٤ أيام. بعدها يبدأ التمرين بالتركيز على ضعفك.</p></div>'));}
+ const si=styleInsight();if(si){si.style.marginTop='14px';m.append(si);}
+
+ m.append(el('h2','','تقدمك خلال أسبوعين'));
+ const tc=el('div','card');tc.append(trendChart());m.append(tc);
+
+ m.append(el('h2','',`خطة الغد`));
+ const tp=el('div','card');tp.append(el('p','muted small','مبنية على تقييمك الحالي، وتتحدث تلقائياً مع كل تمرين.'));tp.append(planRows(buildPlan(addDays(today(),1)),false));m.append(tp);
+
+ m.append(el('h2','','الأوسمة'));const bw=el('div','badges');BADGES.forEach(b=>bw.append(badgeEl(b,S.badges.includes(b.id))));m.append(bw);
+ m.append(el('h2','','استخدمه كتطبيق'));
+ m.append(el('div','card install',`${ic('phone')}<div><b>أضفه للشاشة الرئيسية</b><br>في الآيفون: افتح الرابط في Safari ثم زر المشاركة ثم "إضافة إلى الشاشة الرئيسية". في أندرويد: قائمة Chrome ثم "إضافة إلى الشاشة الرئيسية". سيفتح بملء الشاشة كتطبيق مستقل.</div>`));
+ const rs=el('button','btn ghost','تصفير تقدّمي');rs.style.marginTop='20px';
+ rs.onclick=()=>{if(confirm('سيتم حذف كل النقاط والتحليل والأوسمة. متأكد؟')){S={xp:0,games:0,best:{},plays:{},streak:0,last:null,badges:[],sk:{},items:{},days:{},dp:{}};save();analysis();toast('بدأت من جديد');}};
+ m.append(rs);}
+
+home();
+</script>
+</body>
+</html>
