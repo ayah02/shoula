@@ -2227,10 +2227,10 @@ function adminHome(){if(!ADMIN)return adminLogin();
   {ic:'target',c:'teal',t:'موضوع التركيز',d:'اختر موضوعاً يتدرب عليه الموظفون أكثر من غيره لفترة تحددها، مثل "الإجازات" لمدة شهر.',s:now?`يعمل الآن: ${esc(now)}`:nextC?`القادم: ${esc(nextC.title)} من ${fmtDate(nextC.from)}`:'لا يوجد موضوع تركيز حالياً',fn:admFocusList},
   {ic:'book',c:'green',t:'الأسئلة',d:'تصفّح أسئلة سراج، وأوقف أي سؤال لا تريده، أو أضف سؤالاً جديداً.',s:`${ar(tot)} سؤالاً${hid?`، منها ${ar(hid)} موقوف`:''}${cus?`، و${ar(cus)} من إضافتك`:''}`,fn:()=>admQuestions()},
   {ic:'msg',c:'teal',t:'رسالة لكل الموظفين',d:'إعلان أو تنبيه يظهر أعلى الصفحة الرئيسية لكل موظف حتى تاريخ تحدده، مثل: "اختبار الكفاءات يوم الأحد".',s:CFG.notice?`الرسالة الحالية: ${esc(CFG.notice.text.slice(0,40))}${CFG.notice.text.length>40?'…':''}`:'لا توجد رسالة حالياً',fn:admNotice},
-  LV?null:{ic:'upload',c:'orange',t:'نشر التغييرات للجميع',d:'بعد أن تنتهي من تعديلاتك، اضغط نشر فتصل لكل الموظفين خلال دقيقة أو دقيقتين.',s:ch.length?`${ar(ch.length)} ${ch.length===1?'تغيير ينتظر':'تغييرات تنتظر'} النشر`:'لا توجد تغييرات جديدة',fn:admPublish}].filter(Boolean);
+  (LV||!ghReady())?null:{ic:'upload',c:'orange',t:'نشر التغييرات للجميع',d:'بعد أن تنتهي من تعديلاتك، اضغط نشر فتصل لكل الموظفين خلال دقيقة أو دقيقتين.',s:ch.length?`${ar(ch.length)} ${ch.length===1?'تغيير ينتظر':'تغييرات تنتظر'} النشر`:'لا توجد تغييرات جديدة',fn:admPublish}].filter(Boolean);
  acts.forEach(a=>{const b=el('button','card bigact');b.style.setProperty('--c',`var(--${a.c})`);b.innerHTML=`<span class="gicon">${ic(a.ic)}</span><div><b>${a.t}</b><p>${a.d}</p><small>${a.s}</small></div>${ic('back').replace('class="i"','class="i chev"')}`;b.onclick=a.fn;w.append(b);});
  const r=el('div','row');r.style.marginTop='16px';
- const p=el('button','btn ghost',ic('lock')+' تغيير رمز الدخول');p.onclick=admPin;const gh=el('button','btn ghost',ic('gear')+(LV?' إعدادات التحديث الفوري':' إعدادات GitHub'));gh.onclick=()=>LV?admTrackSetup():admGitHub(adminHome);gh.style.flex='1';const lo=el('button','btn ghost',ic('logout')+' خروج');lo.onclick=()=>{ADMIN=false;home();};p.style.flex=lo.style.flex='1';r.append(p,gh,lo);r.style.flexWrap='wrap';w.append(r);
+ const p=el('button','btn ghost',ic('lock')+' تغيير رمز الدخول');p.onclick=admPin;const gh=el('button','btn ghost',ic('gear')+' إعدادات التحديث الفوري');gh.onclick=admTrackSetup;gh.style.flex='1';const lo=el('button','btn ghost',ic('logout')+' خروج');lo.onclick=()=>{ADMIN=false;home();};p.style.flex=lo.style.flex='1';r.append(p,gh,lo);r.style.flexWrap='wrap';w.append(r);
  const hw=el('details','card helpbox');hw.innerHTML=`<summary>${ic('info')} كيف تعمل هذه الصفحة؟</summary>
  <ol>${LV?`<li>كل تغيير تحفظه هنا (التركيز، الأسئلة، الرسالة) يُرسل فوراً لجدول Google، ويصل لكل الموظفين خلال ثوانٍ. من كان سراج مفتوحاً عنده يصله خلال نصف دقيقة.</li><li>لا تحتاج أي نشر، ولا تعديل كود، ولا GitHub.</li>`:`<li>بعد تفعيل التحديث الفوري، كل تغيير تحفظه يصل للجميع خلال ثوانٍ دون نشر.</li><li>بدونه: التعديل يظهر على جهازك أولاً، ثم تضغط "نشر التغييرات للجميع".</li>`}<li>أسماء الموظفين: يكتب كل موظف اسمه وإدارته مرة واحدة عند أول فتح لسراج، فيظهر في لوحة المتابعة وفي جدول Google.</li><li>تقدّم الموظفين ونقاطهم لا تتأثر بأي تغيير تعمله.</li><li>للدخول لهذه الصفحة لاحقاً: اضغط شعار سراج أعلى الصفحة ٥ مرات متتالية، أو أضف ‎#admin‎ لآخر الرابط.</li></ol>`;w.append(hw);}
 
@@ -2424,7 +2424,7 @@ function admGitHub(back){const w=admView('ربط سراج بـ GitHub',back||adm
    .catch(st=>{msg.innerHTML=`${ic('info')} ${ghErr(typeof st==='number'?st:0)}`;msg.className='countline';fx('bad');}).finally(()=>{t.disabled=false;});};
  rm.onclick=()=>{const n=read();n.token='';ghSave(n);q('token').value='';msg.innerHTML=`${ic('check')} حُذف الرمز من هذا الجهاز`;msg.className='countline good';};}
 
-function admPublish(){if(liveReady())return admLiveStatus();const w=admView('نشر التغييرات للجميع',adminHome);const ch=changes();
+function admPublish(){if(liveReady())return admLiveStatus();if(!ghReady())return admNeedLive();const w=admView('نشر التغييرات للجميع',adminHome);const ch=changes();
  if(!ch.length){w.append(el('div','card empty',`${ic('check')}<p>لا توجد تغييرات جديدة. كل ما يراه الموظفون الآن هو المحتوى المنشور.</p>`));}
  else{
   const s=el('div','card');s.innerHTML=`<h3 class="card-h">${ic('info')} ما الذي سيتغير للموظفين</h3><ul class="chlist">${ch.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`;w.append(s);
@@ -2455,6 +2455,9 @@ function admPublish(){if(liveReady())return admLiveStatus();const w=admView('ن�
  ex.style.flex=im.style.flex=eh.style.flex='1';r.append(ex,im,eh);adv.append(r);w.append(adv);
  w.append(el('div','card helpbox note',`<b>${ic('shield')} تنبيه مهم</b><p class="small">جزء من الأسئلة مبني على الدليل الإجرائي، وهو دليل داخلي لا يُتداول خارج الوزارة. اجعل مستودع GitHub خاصاً (Private) وموقع سراج متاحاً لموظفي الوزارة فقط.</p>`));}
 
+function admNeedLive(){const w=admView('إيصال التغييرات للجميع',adminHome);
+ w.append(el('div','alertcard warn',`${ic('zap')}<div><b>فعّل التحديث الفوري مرة واحدة</b><p>تغييراتك محفوظة وتعمل الآن على جهازك. بعد التفعيل تصل لكل الموظفين تلقائياً، وكل تغيير بعدها يصل فوراً.</p></div>`));
+ const b=el('button','btn primary block',ic('zap')+' فعّل الآن');b.onclick=admTrackSetup;w.append(b);}
 /* ---- تغيير الرمز ---- */
 function admPin(){const w=admView('تغيير رمز الدخول',adminHome);
  const f=el('form','card');f.innerHTML=`<p class="muted small">اختر رمزاً من ٤ أرقام أو أكثر، ولا تشاركه إلا مع من يدير المحتوى. الرمز الجديد يصل للجميع مع "اعتماد التغييرات".</p>
@@ -2824,8 +2827,7 @@ function trackDone(){const w=admView('التحديث الفوري ولوحة ا�
  w.append(el('div','card done-card',`<span class="gicon" style="--c:var(--green)">${ic('check')}</span><b>تم التفعيل</b><p>من الآن كل تغيير تحفظه يصل لكل الموظفين فوراً، دون نشر ودون GitHub. بقي شيء واحد: أرسل رابط الموظفين التالي لفريقك.</p>`));
  w.append(empLinkCard());
  const r=el('div','row');r.style.marginTop='12px';const d=el('button','btn ghost','افتح اللوحة');d.onclick=admDash;const h=el('button','btn ghost','إدارة سراج');h.onclick=adminHome;d.style.flex=h.style.flex='1';r.append(d,h);w.append(r);
- const o=el('details','card helpbox');o.innerHTML=`<summary>${ic('info')} اختياري: أريد أن يعمل الرابط العادي بدون إضافة</summary><p class="small">رابط الموظفين أعلاه يكفي. إن أردت أن يرتبط أيضاً من يفتح الرابط العادي، ارفع ملف الربط إلى GitHub مرة واحدة.</p>`;
- const b=el('button','btn ghost sm',ic('upload')+' ملف الربط');b.onclick=admLinkOnce;o.append(b);w.append(o);}
+}
 
 /* ---- رسالة لكل الموظفين ---- */
 function admNotice(){const w=admView('رسالة لكل الموظفين',adminHome);const n=CFG.notice||{};
